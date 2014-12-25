@@ -1,8 +1,16 @@
 # What is this?
 
-CppAssert is a modern C++11 assert replacement library. It provides basic
-primitives for defensive programming. The behavior and message format can be
-customized through available extension points.
+CppAssert is a modern C++11 assert replacement library. It provides "assert-like" 
+macros: `CPP_ASSERT_??()`, `CPP_ASSERT_ALWAYS_??()` which can be used to 
+enable optional *redundant* runtime checks in corresponding build modes. 
+If an assertion argument evaluates to false, a runtime-configurable assertion
+handler is invoked with the context information about current filename,
+line number, expression text and with optionally evaluated arguments.
+Default assertion handler provides detailed information about failed assertion
+can easily customize messages as well as handler behavior using provided
+and a corresponding failure location including stack trace.  Library clients
+can easily customize messages as well as handler behavior using provided
+extension points.
 
 Assertion failure is a sign of a contract violation or some other logic
 error. The goal of assertion failure is to report precise location and
@@ -47,6 +55,31 @@ Then, to build executables and do all that linking stuff,
 To run all tests easily,
 
     ctest
+## Examples
+
+```
+#include <iostream>
+#include <cppassert/Assertion.hpp>
+
+using namespace std;
+int check_args(int size)
+{
+    CPP_ASSERT_ALWAYS(size!=0)<<"Size shouldnt be 0";
+    return 0;
+}
+
+int main(int argc, char **)
+{
+    const int ARGS_MAX = 5;
+    std::cerr<<"Hello "<<argc<<std::endl;
+    CPP_ASSERT_LT(argc, ARGS_MAX)<<" argc is not lower than "
+                                <<ARGS_MAX<<std::endl;
+    std::cerr<<"World "<<std::endl;
+    check_args(0);
+    return 0;
+}
+
+``` 
 
 ## Supported compilers
 
@@ -54,6 +87,13 @@ This library is supported on following compilers
 - g++ >= 4.8
 - clang >= 3.5
 - Visual C++ Compiler November 2013 CTP
+
+## Supported operating systems
+
+- Linux,
+- Windows
+
+Port to FreeBSD is a work in progress.
 
 ## Supported architectures
 
