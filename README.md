@@ -27,6 +27,7 @@ detailed message about assertion location including stack trace and evaluated
 arguments.
 
 # Where are things?
+
 `build/` is where code is built - like where executables are.
 `3rdparty/` includes 3rdparty libraries, currently only gtest-1.7.0 is required.
 `doc/` contains doxygen documentation.
@@ -55,6 +56,7 @@ Then, to build executables and do all that linking stuff,
 To run all tests easily,
 
     ctest
+
 ## Examples
 
 ```
@@ -80,6 +82,21 @@ int main(int argc, char **)
 }
 
 ``` 
+And corresponding output:
+
+```
+./cppassertExample 
+Hello 1
+World 
+/cppassert/samples/cppassert.cpp:10: int check_args(int): Assertion failure: size!=0
+Size shouldnt be 0
+0 0x40ffe2 ./cppassertExample(check_args(int)+0xf5) [0x40ffe2]
+1 0x41058b ./cppassertExample(main+0x472) [0x41058b]
+2 0x7f8094557ec5 /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf5) [0x7f8094557ec5]
+3 0x40fe29 ./cppassertExample() [0x40fe29]
+
+Aborted (core dumped)
+```
 
 ## Supported compilers
 
