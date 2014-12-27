@@ -36,7 +36,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
     # using Clang
 
     if(CMAKE_BUILD_TYPE STREQUAL Test)
-        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fsanitize=address -fsanitize=undefined")
+        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
     endif (CMAKE_BUILD_TYPE STREQUAL Test)
     set(CMAKE_CXX_FLAGS "-pedantic -W -Wall -std=c++11 ${CMAKE_CXX_FLAGS}")
 
