@@ -2,7 +2,22 @@
 #include <cppassert/CppAssert.hpp>
 #include <gtest/gtest.h>
 
-TEST(AssertionFailureTest, accessors)
+class AssertionFailureTest : public ::testing::Test
+{
+protected:
+
+    
+
+    
+
+    virtual void SetUp()
+    {    
+       cppassert::CppAssert::getInstance()->setDefaultFormatter();
+    }
+
+};
+
+TEST_F(AssertionFailureTest, accessors)
 {
     const std::uint32_t expectedLine = 0xff;
     const char expectedFile[] = "file";
@@ -23,7 +38,7 @@ TEST(AssertionFailureTest, accessors)
     EXPECT_TRUE(assertion.getStackTrace().empty());
 }
 
-TEST(AssertionFailureTest, toString)
+TEST_F(AssertionFailureTest, toString)
 {
     const std::int32_t expectedLine = 0xff;
     const char expectedFile[] = "file";
@@ -45,7 +60,7 @@ static void emptyHandler(const cppassert::AssertionFailure &)
 
 }
 
-TEST(AssertionFailureTest, operatorEq)
+TEST_F(AssertionFailureTest, operatorEq)
 {
     const std::int32_t expectedLine = 0xff;
     const char expectedFile[] = "file";

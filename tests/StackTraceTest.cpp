@@ -44,12 +44,17 @@ TEST(StackTraceTest, indexOperatorShouldThrowIfOutOfRange)
 }
 #endif /* defined(CPP_ASSERT_HAVE_BACKTRACE) || defined(_WIN32) */
 
-#if defined(CPP_ASSERT_HAVE_BACKTRACE)
+#if defined(__linux__) || defined(__FreeBSD__)
 TEST(StackTraceTest, demangler)
 {
-    const char *expectedSymbol = "void testing::internal::HandleSehExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*)";
+    const char *expectedSymbol =
+#if defined(__linux__)    
+        "void testing::internal::HandleSehExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*)";
+#elif defined(__FreeBSD__)    
+        "void testing::internal::HandleSehExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, testing::internal::HandleSehExceptionsInMethodIfSupported<testing::Test, void>(void::*)(void), char const*)";
+#endif     
     CppDemangler demangler;
     const char *demangledSymbol = demangler.demangle("_ZN7testing8internal38HandleSehExceptionsInMethodIfSupportedINS_4TestEvEET0_PT_MS4_FS3_vEPKc");
     EXPECT_STREQ(expectedSymbol, demangledSymbol);
 }
-#endif /* defined(CPP_ASSERT_HAVE_BACKTRACE) */
+#endif /* defined(__linux__) || defined(__FreeBSD__)*/

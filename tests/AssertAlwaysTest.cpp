@@ -1,7 +1,8 @@
 #include <gtest/gtest.h>
 #include <cppassert/Assertion.hpp>
 
-#ifndef _WIN32
+//gtest doesnt support death tests on free bsd
+#if defined(__linux__)
 TEST(AssertAlwaysTest, assertShouldAbort)
 {
     ::testing::FLAGS_gtest_death_test_style = "threadsafe";
@@ -102,4 +103,4 @@ TEST(AssertAlwaysTest, assertLeShouldAbort)
             , ".*Assertion failure.*");
 
 }
-#endif /* _WIN32 */
+#endif /* defined(__linux__) */
