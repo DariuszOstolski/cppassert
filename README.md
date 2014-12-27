@@ -38,6 +38,28 @@ arguments.
 
 # What do I do?
 
+## Getting Started
+
+To start using CppAssert, you need to compile CppAssert into a 
+library and link your project with it.  We provide cmake files 
+that can be used to generate files for following tools: Borland 
+Makefiles, MSYS Makefiles, MinGW Makefiles, NMake Makefiles, NMake
+Makefiles JOM, Ninja, Unix Makefiles, Watcom WMake, Visual Studio
+12 2013, Xcode. If your build system is not on this list, you can 
+take a look at CMakeLists.txt to learn how CppAssert should be compiled
+(basically you want to compile src/* with CPP_ASSERT_ROOT/include in the 
+header search path, where CPP_ASSERT_ROOT is the CppAssert root directory).
+
+Once you are able to compile the CppAssert library, you should create 
+a project or build target for your project. Make sure you have CPP_ASSERT_ROOT/include 
+in the header search path so that the compiler can find "cppassert/Assertion.hpp"
+when compiling your project. Set up your project to link with the 
+CppAssert library (for example, in Visual Studio, this is done by 
+adding a dependency on cppassert.vcproj).
+
+If you still have questions, take a look at how CppAssert tests are 
+built and use them as examples. 
+
 ## Use cmake and make
 If you want to test it all out through the common gtest procedure, first
 **delete build/** (if present). Then...
@@ -103,7 +125,7 @@ Aborted (core dumped)
 This library is supported on following compilers
 - g++ >= 4.8
 - clang >= 3.4.1
-- Visual C++ Compiler November 2013 CTP
+- Visual C++ Compiler >= 2012
 
 ## Supported operating systems
 
