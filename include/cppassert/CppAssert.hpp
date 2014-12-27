@@ -130,6 +130,11 @@ public:
     void setDefaultHandler();
 
     /**
+     * Sets default formatting functions
+     */
+    void setDefaultFormatter();
+    
+    /**
      * Invoke assertion handler
      *
      * @param   assertion   Assertion that failed

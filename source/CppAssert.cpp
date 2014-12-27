@@ -108,12 +108,7 @@ std::string formatFrame(std::uint32_t frameNumber
 CppAssert::CppAssert()
 :assertionHandler_(internal::onAssertionFailureDefaultHandler)
 {
-    formatter_.formatAssertion_ = internal::formatAssertionMessage;
-    formatter_.formatBoolFailure_ = internal::formatBoolFailureMessage;
-    formatter_.formatPredicateFailure_ = internal::formatPredicateFailureMessage;
-    formatter_.formatStatementFailure_ = internal::formatStatementFailureMessage;
-    formatter_.formatStreamed_ = internal::formatStreamedMessage;
-    formatter_.formatFrame_ = internal::formatFrame;
+    setDefaultFormatter();
 }
 
 CppAssert *CppAssert::getInstance()
@@ -229,4 +224,15 @@ void CppAssert::setFormatter(Formatter formatter)
         formatter_.formatFrame_ = formatter.formatFrame_;
     }
 }
+
+void CppAssert::setDefaultFormatter()
+{
+    formatter_.formatAssertion_ = internal::formatAssertionMessage;
+    formatter_.formatBoolFailure_ = internal::formatBoolFailureMessage;
+    formatter_.formatPredicateFailure_ = internal::formatPredicateFailureMessage;
+    formatter_.formatStatementFailure_ = internal::formatStatementFailureMessage;
+    formatter_.formatStreamed_ = internal::formatStreamedMessage;
+    formatter_.formatFrame_ = internal::formatFrame;
+}
+
 } //asrt
