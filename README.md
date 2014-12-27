@@ -85,15 +85,15 @@ int main(int argc, char **)
 
 This library is supported on following compilers
 - g++ >= 4.8
-- clang >= 3.5
+- clang >= 3.4.1
 - Visual C++ Compiler November 2013 CTP
 
 ## Supported operating systems
 
 - Linux,
-- Windows
+- Windows,
+- FreeBSD
 
-Port to FreeBSD is a work in progress.
 
 ## Supported architectures
 
