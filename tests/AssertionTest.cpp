@@ -2,7 +2,7 @@
 #include <cppassert/Assertion.hpp>
 #include <cppassert/CppAssert.hpp>
 
-
+#ifdef CPP_ASSERT_ENABLED
 class AssertionTest : public ::testing::Test
 {
 protected:
@@ -178,3 +178,4 @@ TEST_F(AssertionTest, assertGtHandlerShouldNotBeCalled)
     CPP_ASSERT_GT(a, b);
     EXPECT_EQ(0, assertionHandlerCounter_);
 }
+#endif /* CPP_ASSERT_ENABLED */

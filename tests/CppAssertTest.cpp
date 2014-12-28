@@ -49,7 +49,7 @@ protected:
                         , const char *)
     {
         formatFrameCounter_ +=1;
-        return std::string();
+        return std::string("frame");
     }
 
     std::int32_t formatBoolCounter_ = 0;
@@ -160,6 +160,7 @@ TEST_F(CppAssertTest, formatStreamed)
 TEST_F(CppAssertTest, formatFrame)
 {
     std::string result = cppAssert_->getStackTraceExceptTop(0);
+    std::cout<<result<<std::endl;
     if(result.empty())
     {
         EXPECT_EQ(0, formatFrameCounter_);

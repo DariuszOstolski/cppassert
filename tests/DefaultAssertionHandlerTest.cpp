@@ -2,7 +2,7 @@
 #include <cppassert/Assertion.hpp>
 
 //gtest doesnt support death tests on free bsd/windows
-#if defined(__linux__) &&  !defined(NDEBUG)
+#if defined(__linux__) &&  defined(CPP_ASSERT_ENABLED)
 TEST(DefaultAssertionHandlerTest, assertShouldAbort)
 {
     ::testing::FLAGS_gtest_death_test_style = "threadsafe";
@@ -104,4 +104,4 @@ TEST(DefaultAssertionHandlerTest, assertLeShouldAbort)
 
 }
 
-#endif /* defined(__linux__) */
+#endif /* defined(__linux__) &&  defined(CPP_ASSERT_ENABLED) */
