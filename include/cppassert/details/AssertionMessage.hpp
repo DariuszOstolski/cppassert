@@ -124,13 +124,13 @@ public:
      */
     inline bool empty() const
     {
-        return static_cast<bool>(!stream_);
+        return static_cast<bool>(stream_.get()==nullptr);
     }
 
 private:
     inline std::ostream &getStream()
     {
-        if(!stream_)
+        if(stream_.get()==nullptr)
         {
             stream_.reset(new std::stringstream);
         }

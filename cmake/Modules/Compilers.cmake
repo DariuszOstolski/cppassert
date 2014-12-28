@@ -59,4 +59,11 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSTRICT -DWIN32_LEAN_AND_MEAN")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -EHsc -D_HAS_EXCEPTIONS=1")
     set(gtest_force_shared_crt ON)
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL SunPro)
+    # using gcc
+    if(CMAKE_BUILD_TYPE STREQUAL "Test")
+        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -xdebugformat=dwarf")
+    endif (CMAKE_BUILD_TYPE STREQUAL "Test")
+    set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+
 endif()

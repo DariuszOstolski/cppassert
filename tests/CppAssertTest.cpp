@@ -1,7 +1,8 @@
 #include <cppassert/CppAssert.hpp>
 #include <cppassert/AssertionFailure.hpp>
 #include <gtest/gtest.h>
-
+#include <functional>
+#include <tuple>
 
 class CppAssertTest : public ::testing::Test
 {
@@ -72,19 +73,19 @@ protected:
 
         cppassert::CppAssert::Formatter formatter;
         formatter.formatAssertion_
-                = std::bind(&CppAssertTest::formatAssertionMessage
+                = std::bind<std::string>(&CppAssertTest::formatAssertionMessage
                             , this
                             , std::placeholders::_1
                             );
 
-        formatter.formatBoolFailure_
-                = std::bind(&CppAssertTest::formatBoolFailureMessage
+         formatter.formatBoolFailure_
+                = std::bind<std::string>(&CppAssertTest::formatBoolFailureMessage
                             , this
                             , std::placeholders::_1
                             , std::placeholders::_2
                             , std::placeholders::_3);
         formatter.formatPredicateFailure_
-                = std::bind(&CppAssertTest::formatPredicateFailureMessage
+                = std::bind<std::string>(&CppAssertTest::formatPredicateFailureMessage
                             , this
                             , std::placeholders::_1
                             , std::placeholders::_2
@@ -92,15 +93,15 @@ protected:
                             , std::placeholders::_4
                             , std::placeholders::_5);
         formatter.formatStatementFailure_
-                = std::bind(&CppAssertTest::formatStatementFailureMessage
+                = std::bind<std::string>(&CppAssertTest::formatStatementFailureMessage
                             , this
                             , std::placeholders::_1);
         formatter.formatStreamed_
-                = std::bind(&CppAssertTest::formatStreamedMessage
+                = std::bind<std::string>(&CppAssertTest::formatStreamedMessage
                             , this
                             , std::placeholders::_1);
         formatter.formatFrame_
-                = std::bind(&CppAssertTest::formatFrame
+                = std::bind<std::string>(&CppAssertTest::formatFrame
                             , this
                             , std::placeholders::_1
                             , std::placeholders::_2

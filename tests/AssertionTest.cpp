@@ -18,7 +18,7 @@ protected:
     virtual void SetUp()
     {
        assertionHandlerCounter_ = 0;
-       auto assertionHandler = std::bind(
+       auto assertionHandler = std::bind<void>(
                                     &AssertionTest::onAssertion
                                     , this
                                     , std::placeholders::_1);
