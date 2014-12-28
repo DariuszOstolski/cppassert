@@ -28,8 +28,7 @@ arguments.
 
 # Continous integration status
 
-.. image:: https://travis-ci.org/DariuszOstolski/cppassert.svg?branch=master
-  :target: https://travis-ci.org/DariuszOstolski/cppassert
+[![Build Status](https://travis-ci.org/DariuszOstolski/cppassert.svg?branch=master)](https://travis-ci.org/DariuszOstolski/cppassert)
 
 # Where are things?
 
