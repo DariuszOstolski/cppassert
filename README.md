@@ -1,7 +1,5 @@
 # What is this? 
 
-(https://travis-ci.org/DariuszOstolski/cppassert.svg?branch=master)
-
 CppAssert is a modern C++11 assert replacement library. It provides "assert-like" 
 macros: `CPP_ASSERT_??()`, `CPP_ASSERT_ALWAYS_??()` which can be used to 
 enable optional *redundant* runtime checks in corresponding build modes. 
@@ -27,6 +25,11 @@ passing AssertionFailure object. Note that if an assertions are disabled
 it expands to nothing by the preprocessor. Default assertion handler displays
 detailed message about assertion location including stack trace and evaluated
 arguments.
+
+# Continous integration status
+
+.. image:: https://travis-ci.org/DariuszOstolski/cppassert.svg?branch=master
+  :target: https://travis-ci.org/DariuszOstolski/cppassert
 
 # Where are things?
 
