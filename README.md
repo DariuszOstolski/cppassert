@@ -135,8 +135,8 @@ This library is supported on following compilers
 - Linux,
 - Windows,
 - FreeBSD,
-- Solaris (gcc works out of box, for Oracle Solaris Studio compiler needs
-  a fix for test build)
+- Solaris (gcc works out of box, for Oracle Solaris Studio i.e. Sun C++ 5.13 
+  2014/10/20 compiler needs a fix for test build)
 
 
 ## Supported architectures
