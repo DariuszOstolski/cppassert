@@ -159,6 +159,14 @@ TEST_F(CppAssertTest, formatStreamed)
 
 TEST_F(CppAssertTest, formatFrame)
 {
-    cppAssert_->getStackTraceExceptTop(0);
-    EXPECT_LT(1, formatFrameCounter_);
+    std::string result = cppAssert_->getStackTraceExceptTop(0);
+    if(result.empty())
+    {
+        EXPECT_EQ(0, formatFrameCounter_);
+    }
+    else
+    {
+        EXPECT_LT(1, formatFrameCounter_);
+    }
+
 }
