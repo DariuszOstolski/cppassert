@@ -3,6 +3,12 @@ os:
 - linux
 - osx
 before_install:
+- if [ $TRAVIS_OS_NAME == linux ]; then sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y; fi
+- if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update -qq; fi
+- if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install -qq libyajl-dev libxml2-dev libxqilla-dev; fi
+- if [ "$CXX" = "clang++" ]; then sudo apt-get install -qq libstdc++-4.8-dev; fi
+- if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+- if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
 - if [ $TRAVIS_OS_NAME == osx ]; then curl http://www.cmake.org/files/v2.8/cmake-2.8.12.2-Darwin64-universal.tar.gz -o cmake.tar.gz; fi
 - if [ $TRAVIS_OS_NAME == osx ]; then tar xzf cmake.tar.gz; fi
 - if [ $TRAVIS_OS_NAME == osx ]; then export PATH=$PATH:"cmake-2.8.12.2-Darwin64-universal/CMake 2.8-12.app/Contents/bin"; fi
