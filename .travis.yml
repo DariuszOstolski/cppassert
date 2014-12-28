@@ -17,8 +17,7 @@ env:
 - BUILD_TYPE=Debug
 - BUILD_TYPE=Release
 script:
-- cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DFMT_EXTRA_TESTS=ON .
-- make -j4
-- CTEST_OUTPUT_ON_FAILURE=1 make test
+- cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE - .
+- make 
 after_failure:
 - cat Testing/Temporary/LastTest.log
