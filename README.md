@@ -1,4 +1,6 @@
-# What is this?
+# What is this? 
+
+(https://travis-ci.org/DariuszOstolski/cppassert.svg?branch=master)
 
 CppAssert is a modern C++11 assert replacement library. It provides "assert-like" 
 macros: `CPP_ASSERT_??()`, `CPP_ASSERT_ALWAYS_??()` which can be used to 

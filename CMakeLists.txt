@@ -30,9 +30,8 @@ include_directories (include)
 add_subdirectory (source)
 add_subdirectory (samples)
 
-if(CMAKE_BUILD_TYPE STREQUAL "Test")
-    enable_testing()
-    add_subdirectory (${PROJECT_SOURCE_DIR}/3rdparty/gtest-1.7.0)
-    add_subdirectory (tests)
-endif (CMAKE_BUILD_TYPE STREQUAL "Test")
+
+enable_testing()
+add_subdirectory (${PROJECT_SOURCE_DIR}/3rdparty/gtest-1.7.0)
+add_subdirectory (tests)
 
