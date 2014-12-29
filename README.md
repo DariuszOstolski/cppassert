@@ -26,7 +26,7 @@ it expands to nothing by the preprocessor. Default assertion handler displays
 detailed message about assertion location including stack trace and evaluated
 arguments.
 
-# Continous integration status
+# Continuous integration status
 
 [![Build Status](https://travis-ci.org/DariuszOstolski/cppassert.svg?branch=master)](https://travis-ci.org/DariuszOstolski/cppassert)
 
