@@ -26,6 +26,10 @@ it expands to nothing by the preprocessor. Default assertion handler displays
 detailed message about assertion location including stack trace and evaluated
 arguments.
 
+# Why CppAssert?
+
+I've written CppAssert library because I found traditional `assert` macro very limited. It lacks context information like for example call stack, thread context. It's impossible to change message format.
+
 # Continuous integration status
 
 [![Build Status](https://travis-ci.org/DariuszOstolski/cppassert.svg?branch=master)](https://travis-ci.org/DariuszOstolski/cppassert)
