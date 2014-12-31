@@ -71,20 +71,20 @@ protected:
 
         cppAssert_ = cppassert::CppAssert::getInstance();
 
-        cppassert::CppAssert::Formatter formatter;
-        formatter.formatAssertion_
+
+        auto formatAssertion_
                 = std::bind<std::string>(&CppAssertTest::formatAssertionMessage
                             , this
                             , std::placeholders::_1
                             );
 
-         formatter.formatBoolFailure_
+        auto formatBoolFailure_
                 = std::bind<std::string>(&CppAssertTest::formatBoolFailureMessage
                             , this
                             , std::placeholders::_1
                             , std::placeholders::_2
                             , std::placeholders::_3);
-        formatter.formatPredicateFailure_
+        auto formatPredicateFailure_
                 = std::bind<std::string>(&CppAssertTest::formatPredicateFailureMessage
                             , this
                             , std::placeholders::_1
@@ -92,22 +92,28 @@ protected:
                             , std::placeholders::_3
                             , std::placeholders::_4
                             , std::placeholders::_5);
-        formatter.formatStatementFailure_
+        auto formatStatementFailure_
                 = std::bind<std::string>(&CppAssertTest::formatStatementFailureMessage
                             , this
                             , std::placeholders::_1);
-        formatter.formatStreamed_
+        auto formatStreamed_
                 = std::bind<std::string>(&CppAssertTest::formatStreamedMessage
                             , this
                             , std::placeholders::_1);
-        formatter.formatFrame_
+        auto formatFrame_
                 = std::bind<std::string>(&CppAssertTest::formatFrame
                             , this
                             , std::placeholders::_1
                             , std::placeholders::_2
                             , std::placeholders::_3);
 
-        cppAssert_->setFormatter(formatter);
+        cppAssert_->setBooleanFailureFormatter(formatBoolFailure_);
+        cppAssert_->setAssertionFormatter(formatAssertion_);
+        cppAssert_->setPredicateFailureFormatter(formatPredicateFailure_);
+        cppAssert_->setFrameFormatter(formatFrame_);
+        cppAssert_->setStreamFormatter(formatStreamed_);
+        cppAssert_->setStatementFailureFormatter(formatStatementFailure_);
+
     }
 
     virtual void TearDown()
@@ -118,6 +124,8 @@ protected:
         formatAssertionCounter_ = 0;
         formatStatementCounter_ = 0;
         formatFrameCounter_ = 0;
+        cppAssert_->setDefaultFormatter();
+        cppAssert_->setDefaultHandler();
     }
 };
 

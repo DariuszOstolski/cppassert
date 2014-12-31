@@ -25,79 +25,48 @@ public:
     using AssertionHandlerType = std::function<void(const AssertionFailure &assertion)>;
 
     /**
-     *  Provides types definitions for formating functions
+     * Formats messages produced by CPP_ASSERT_[TRUE|FALSE] macros
      */
-    struct Formatter
-    {
-        /**
-         * Formats messages produced by CPP_ASSERT_[TRUE|FALSE] macros
-         */
-        using FormatBoolFailure
-                = std::function<std::string(const char* expressionText,
-                                    const char* actualPredicateValue,
-                                    const char* expectedPredicateValue)>;
-        /**
-         * Formats messages produced by equality/inequality macros
-         * (CPP_ASSERT_[EQ|NE|LE|LT|GE|GT]
-         */
-        using FormatPredicateFailure
-                = std::function<std::string(const char* predicate,
-                                    const char* value1Text,
-                                    const char* value2Text,
-                                    const std::string &value1,
-                                    const std::string &value2)>;
+    using FormatBoolFailure
+            = std::function<std::string(const char* expressionText,
+                                const char* actualPredicateValue,
+                                const char* expectedPredicateValue)>;
+    /**
+     * Formats messages produced by equality/inequality macros
+     * (CPP_ASSERT_[EQ|NE|LE|LT|GE|GT]
+     */
+    using FormatPredicateFailure
+            = std::function<std::string(const char* predicate,
+                                const char* value1Text,
+                                const char* value2Text,
+                                const std::string &value1,
+                                const std::string &value2)>;
 
-        /**
-         * Type for assertion message formatter
-         */
-        using FormatAssertion
-                = std::function<std::string(const AssertionFailure &)>;
+    /**
+     * Type for assertion message formatter
+     */
+    using FormatAssertion
+            = std::function<std::string(const AssertionFailure &)>;
 
-        /**
-         * Formats message produced by CPP_ASSERT macro.
-         */
-        using FormatStatementFailure
-                = std::function<std::string(const char *statement)>;
+    /**
+     * Formats message produced by CPP_ASSERT macro.
+     */
+    using FormatStatementFailure
+            = std::function<std::string(const char *statement)>;
 
-        /**
-         * Formats message streamed by operator<<
-         */
-        using FormatStreamed
-                = std::function<std::string(const std::string &message)>;
+    /**
+     * Formats message streamed by operator<<
+     */
+    using FormatStreamed
+            = std::function<std::string(const std::string &message)>;
 
-        /**
-         * Formats stack frame
-         */
-        using FormatFrame
-                = std::function<std::string(std::uint32_t frameNumber
-                                    , const void *address
-                                    , const char *symbol)>;
-
-        /**
-         * Callback used to format boolean assertion
-         */
-        FormatBoolFailure formatBoolFailure_;
-        /**
-         * Callback used to format assertion predicates
-         */
-        FormatPredicateFailure formatPredicateFailure_;
-        /**
-         * Callback used to format failed assertions
-         */
-        FormatAssertion formatAssertion_;
-        /**
-         * Callback used to format statement failures
-         */
-        FormatStatementFailure formatStatementFailure_;
-        /**
-         * Callback used to format streamed user messages
-         */
-        FormatStreamed formatStreamed_;
-        /**
-         * Callback used to format stack frames
-         */
-        FormatFrame formatFrame_;
-    };
+    /**
+     * Formats stack frame
+     */
+    using FormatFrame
+            = std::function<std::string(std::uint32_t frameNumber
+                                , const void *address
+                                , const char *symbol)>;
 
     /**
      * Return a CppAssert object
@@ -107,15 +76,62 @@ public:
     static CppAssert *getInstance();
 
     /**
-     * Set user provided formatter object.
+     * Set user provided boolean formatter object.
      *
-     * @note Not all members of formatter structure have to be set. If they
-     * are not set default implementation will be used
      *
-     * @param[in]   formatter   object with
+     * @param[in]   booleanFormatter   object to format boolean failures
+     *                                 that is CPP_ASSERT_TRUE|FALSE
      *
      */
-    void setFormatter(Formatter formatter);
+    void setBooleanFailureFormatter(FormatBoolFailure booleanFormatter);
+
+    /**
+     * Set user provided predicate formatter object.
+     *
+     *
+     * @param[in]   predicateFormatter   object to format predicate failures
+     *                                   those generated by
+     *                                   CPP_ASSERT_[EQ|NE|LT|GT|LE|GE] macros
+     *
+     */
+    void setPredicateFailureFormatter(FormatPredicateFailure predicateFormatter);
+
+    /**
+     * Set user provided statement formatter object.
+     *
+     *
+     * @param[in]   statementFormatter   object to format statement failures
+     *                                   CPP_ASSERT
+     *
+     */
+    void setStatementFailureFormatter(FormatStatementFailure statementFormatter);
+
+    /**
+     * Set user provided formatter object0 for streamed messages i.e. those
+     * that use operator<<
+     *
+     *
+     * @param[in]   streamFormatter   object to format boolean failures
+     *
+     */
+    void setStreamFormatter(FormatStreamed streamFormatter);
+
+    /**
+     * Set user provided formatter assertion messages
+     *
+     * @param[in]   assertionFormatter   object to format assertion objects
+     *
+     */
+    void setAssertionFormatter(FormatAssertion assertionFormatter);
+
+    /**
+     * Set user provided frame formatter object.
+     *
+     *
+     * @param[in]   frameFormatter   object to format stack traces
+     *
+     */
+    void setFrameFormatter(FormatFrame frameFormatter);
 
     /**
      * Set user provided assertion handler.
@@ -133,7 +149,7 @@ public:
      * Sets default formatting functions
      */
     void setDefaultFormatter();
-    
+
     /**
      * Invoke assertion handler
      *
@@ -229,6 +245,37 @@ public:
 private:
     CppAssert();
     AssertionHandlerType assertionHandler_;
+    /**
+     *  Provides types definitions for formating functions
+     */
+    struct Formatter
+    {
+        /**
+         * Callback used to format boolean assertion
+         */
+        FormatBoolFailure formatBoolFailure_;
+        /**
+         * Callback used to format assertion predicates
+         */
+        FormatPredicateFailure formatPredicateFailure_;
+        /**
+         * Callback used to format failed assertions
+         */
+        FormatAssertion formatAssertion_;
+        /**
+         * Callback used to format statement failures
+         */
+        FormatStatementFailure formatStatementFailure_;
+        /**
+         * Callback used to format streamed user messages
+         */
+        FormatStreamed formatStreamed_;
+        /**
+         * Callback used to format stack frames
+         */
+        FormatFrame formatFrame_;
+    };
+    
     Formatter formatter_;
     std::mutex assertionHandlerMutex_;
 

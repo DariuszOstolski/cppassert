@@ -192,36 +192,56 @@ void CppAssert::setDefaultHandler()
     assertionHandler_ = internal::onAssertionFailureDefaultHandler;
 }
 
-void CppAssert::setFormatter(Formatter formatter)
+void CppAssert::setBooleanFailureFormatter(CppAssert::FormatBoolFailure
+                                                    booleanFormatter)
 {
-    if(formatter.formatAssertion_)
+    if(booleanFormatter)
     {
-        formatter_.formatAssertion_ = formatter.formatAssertion_;
+        formatter_.formatBoolFailure_ = booleanFormatter;
     }
+}
 
-    if(formatter.formatBoolFailure_)
+
+void CppAssert::setPredicateFailureFormatter(CppAssert::FormatPredicateFailure
+                                                    predicateFormatter)
+{
+    if(predicateFormatter)
     {
-        formatter_.formatBoolFailure_ = formatter.formatBoolFailure_;
+        formatter_.formatPredicateFailure_ = predicateFormatter;
     }
+}
 
-    if(formatter.formatPredicateFailure_)
+void CppAssert::setStatementFailureFormatter(CppAssert::FormatStatementFailure
+                                                    statementFormatter)
+{
+    if(statementFormatter)
     {
-        formatter_.formatPredicateFailure_ = formatter.formatPredicateFailure_;
+        formatter_.formatStatementFailure_ = statementFormatter;
     }
+}
 
-    if(formatter.formatStatementFailure_)
+void CppAssert::setStreamFormatter(CppAssert::FormatStreamed streamFormatter)
+{
+    if(streamFormatter)
     {
-        formatter_.formatStatementFailure_ = formatter.formatStatementFailure_;
+        formatter_.formatStreamed_ = streamFormatter;
     }
+}
 
-    if(formatter.formatStreamed_)
+void CppAssert::setFrameFormatter(CppAssert::FormatFrame frameFormatter)
+{
+    if(frameFormatter)
     {
-        formatter_.formatStreamed_ = formatter.formatStreamed_;
+        formatter_.formatFrame_ = frameFormatter;
     }
+}
 
-    if(formatter.formatFrame_)
+void CppAssert::setAssertionFormatter(CppAssert::FormatAssertion
+                                            assertionFormatter)
+{
+    if(assertionFormatter)
     {
-        formatter_.formatFrame_ = formatter.formatFrame_;
+        formatter_.formatAssertion_ = assertionFormatter;
     }
 }
 
