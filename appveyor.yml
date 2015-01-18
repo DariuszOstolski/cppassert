@@ -26,4 +26,8 @@ before_build:
     - cd c:\projects\cppassert
     - cmake -DCMAKE_BUILD_TYPE=Test
     - dir *
+test_script:
+  - echo %CD%
+  - ctest -VV
+
 
