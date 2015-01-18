@@ -119,7 +119,12 @@ namespace cppassert
                 displacement = 0;
                 std::unique_lock<std::mutex> lock(mutex_);
 
-                SymInitialize(process, NULL, TRUE);
+                if (SymInitialize(process, NULL, TRUE) != TRUE)
+                {
+                    DisplayLastError("SymInitialize");
+                    return;
+                }
+
                 capturedFrames_ = CaptureStackBackTrace(cFramesToSkip
                                             , cFramesSize
                                             , frames
@@ -148,7 +153,7 @@ namespace cppassert
 
             /**
             * Returns number of captured frames
-            * @return 0
+            * @return number of captured frames
             */
             std::size_t size() const
             {
