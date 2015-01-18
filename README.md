@@ -28,11 +28,15 @@ arguments.
 
 # Why CppAssert?
 
-I've written CppAssert library because I found traditional `assert` macro very limited. It lacks context information like for example call stack, thread context. It's impossible to change message format.
+I've written CppAssert library because I found traditional `assert` macro very 
+limited. It lacks context information like for example call stack, thread context. 
+It's impossible to change message format.
 
 # Continuous integration status
 
 [![Build Status](https://travis-ci.org/DariuszOstolski/cppassert.svg?branch=master)](https://travis-ci.org/DariuszOstolski/cppassert)
+[![Build status](https://ci.appveyor.com/api/projects/status/5mvefxf9m8vgo9s8?svg=true)](https://ci.appveyor.com/project/DariuszOstolski/cppassert)
+
 
 # Where are things?
 
