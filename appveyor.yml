@@ -21,11 +21,9 @@ build:
   parallel: true
   verbosity: normal
 # scripts to run before build
-before_build:
-    - cd c:\projects 
-    - mkdir build
+before_build:    
     - echo Running cmake...
-    - cd c:\projects\build
-    - cmake ..\cppassert -DCMAKE_BUILD_TYPE=Test
+    - cd c:\projects\cppassert
+    - cmake -DCMAKE_BUILD_TYPE=Test
     - dir *
 
