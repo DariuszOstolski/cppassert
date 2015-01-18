@@ -27,4 +27,5 @@ before_build:
     - echo Running cmake...
     - cd c:\projects\build
     - cmake ..\cppassert -DCMAKE_BUILD_TYPE=Test
+    - dir *
 
