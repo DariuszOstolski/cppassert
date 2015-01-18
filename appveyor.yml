@@ -22,7 +22,7 @@ build:
   verbosity: normal
 # scripts to run before build
 before_build:
-    - cd projects 
+    - cd c:\projects 
     - mkdir build
     - echo Running cmake...
     - cd c:\projects\build
