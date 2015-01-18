@@ -1,13 +1,15 @@
 version: 0.1.{build}
+
 branches:
-# whitelist
-only:
-- master
+    # whitelist
+    only:
+        - master
+
 os:
-- Visual Studio 2014 CTP4
-- Visual Studio 2015 Preview
+    - Visual Studio 2014 CTP4
+    - Visual Studio 2015 Preview
 init:
-- git config --global core.autocrlf input
+    - git config --global core.autocrlf input
 # clone directory
 clone_folder: c:\projects\cppassert
 platform: x64
@@ -20,9 +22,9 @@ build:
   verbosity: normal
 # scripts to run before build
 before_build:
-- cd projects 
-- mkdir build
-- echo Running cmake...
-- cd c:\projects\build
-- cmake ..\cppassert -DCMAKE_BUILD_TYPE=Test
+    - cd projects 
+    - mkdir build
+    - echo Running cmake...
+    - cd c:\projects\build
+    - cmake ..\cppassert -DCMAKE_BUILD_TYPE=Test
 
