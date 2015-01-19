@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../source/details/StackTrace.cpp"
+#include "../source/details/DebugPrint.cpp"
 
 #if defined(CPP_ASSERT_HAVE_BACKTRACE) || defined(_WIN32)
 
