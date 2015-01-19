@@ -1,4 +1,5 @@
 #include <cppassert/CppAssert.hpp>
+#include <cppassert/details/DebugPrint.hpp>
 #include <cppassert/details/AssertionMessage.hpp>
 #include <cppassert/details/Helpers.hpp>
 #include <cppassert/AssertionFailure.hpp>
@@ -19,10 +20,7 @@ void onAssertionFailureDefaultHandler(const AssertionFailure &assertion)
     const std::string errorAsStr
         = CppAssert::getInstance()->formatAssertionMessage(assertion);
 
-    std::int32_t result = std::fprintf(stderr, "%s" , errorAsStr.c_str());
-    CPP_ASSERT_MARK_UNUSED(result);
-    result = std::fflush(stderr);
-    CPP_ASSERT_MARK_UNUSED(result);
+    DebugPrint(errorAsStr.c_str());
 
 #if defined(WIN32)
     /*

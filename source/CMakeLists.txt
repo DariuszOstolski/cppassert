@@ -1,5 +1,6 @@
 set(srcs
     details/AssertionMessage.cpp
+    details/DebugPrint.cpp
     details/Helpers.cpp
     details/StackTrace.cpp
     Assertion.cpp

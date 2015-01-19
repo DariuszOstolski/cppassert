@@ -5,13 +5,8 @@
 class AssertionFailureTest : public ::testing::Test
 {
 protected:
-
-    
-
-    
-
     virtual void SetUp()
-    {    
+    {
        cppassert::CppAssert::getInstance()->setDefaultFormatter();
     }
 

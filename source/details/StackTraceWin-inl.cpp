@@ -1,3 +1,4 @@
+#include <cppassert/details/DebugPrint.hpp>
 #include <cppassert/details/StackTrace.hpp>
 #include <stdexcept>
 #include <memory>
@@ -43,8 +44,9 @@ namespace cppassert
                 LocalSize(lpDisplayBuf) / sizeof(TCHAR),
                 TEXT("%s failed with error %d: %s"),
                 lpszFunction, dw, lpMsgBuf);
-            std::fprintf(stderr, "%s", (LPCTSTR)lpDisplayBuf);
-            std::fflush(stderr);
+
+            DebugPrint((LPCSTR)lpDisplayBuf);
+            
             LocalFree(lpMsgBuf);
             LocalFree(lpDisplayBuf);
         }
