@@ -10,7 +10,7 @@ namespace internal
  * Prints formatted message to stderr and flushes stderr
  *
  */
-void DebugPrint(const char *message);
+void PrintMessageToStdErr(const char *message);
 
 } //internal
 } //cppassert

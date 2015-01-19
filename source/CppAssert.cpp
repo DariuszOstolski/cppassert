@@ -20,7 +20,7 @@ void onAssertionFailureDefaultHandler(const AssertionFailure &assertion)
     const std::string errorAsStr
         = CppAssert::getInstance()->formatAssertionMessage(assertion);
 
-    DebugPrint(errorAsStr.c_str());
+    PrintMessageToStdErr(errorAsStr.c_str());
 
 #if defined(WIN32)
     /*

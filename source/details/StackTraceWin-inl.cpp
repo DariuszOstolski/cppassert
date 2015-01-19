@@ -45,8 +45,8 @@ namespace cppassert
                 TEXT("%s failed with error %d: %s"),
                 lpszFunction, dw, lpMsgBuf);
 
-            DebugPrint((LPCSTR)lpDisplayBuf);
-            
+            PrintMessageToStdErr((LPCSTR)lpDisplayBuf);
+
             LocalFree(lpMsgBuf);
             LocalFree(lpDisplayBuf);
         }
