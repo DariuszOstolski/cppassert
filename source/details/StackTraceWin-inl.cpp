@@ -14,7 +14,7 @@ namespace cppassert
 
         /**
          * Displays error message related to last occured error
-         * 
+         *
          */
         void DisplayLastError(LPTSTR lpszFunction)
         {
@@ -44,6 +44,7 @@ namespace cppassert
                 TEXT("%s failed with error %d: %s"),
                 lpszFunction, dw, lpMsgBuf);
             std::fprintf(stderr, "%s", (LPCTSTR)lpDisplayBuf);
+            std::fflush(stderr);
             LocalFree(lpMsgBuf);
             LocalFree(lpDisplayBuf);
         }
