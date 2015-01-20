@@ -149,9 +149,10 @@ namespace cppassert
                     {
                         char buffer[512];
                         sprintf_s(buffer, sizeof(buffer)
-                                , "Error getting symbol from addr: 0x%016llX 0x%016p\n"
+                                , "Error getting symbol from addr: 0x%016llX 0x%p address size %d\n"
                                 , frameAddr
-                                , frames[frame]);
+                                , frames[frame]
+                                , sizeof(PVOID));
                         buffer[sizeof(buffer)-1] = '\0';
                         PrintMessageToStdErr(buffer);
                         DisplayLastError("SymFromAddr");
