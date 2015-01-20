@@ -149,7 +149,7 @@ namespace cppassert
                     {
                         char buffer[512];
                         sprintf_s(buffer, sizeof(buffer)
-                                , "Error getting symbol from addr: 0x%016llX %p"
+                                , "Error getting symbol from addr: 0x%016llX 0x%016p\n"
                                 , frameAddr
                                 , frames[frame]);
                         buffer[sizeof(buffer)-1] = '\0';
