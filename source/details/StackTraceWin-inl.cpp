@@ -115,19 +115,16 @@ namespace cppassert
                 symbol = static_cast<PSYMBOL_INFO>(static_cast<void *>(buffer));
 
                 std::memset(symbol, 0, BufferSize);
+                std::memset(frames, 0, sizeof(frames));
+
                 symbol->MaxNameLen = MaxNameLen-1;
                 symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
 
                 process = GetCurrentProcess();
                 displacement = 0;
-                std::unique_lock<std::mutex> lock(mutex_);
 
-                if (SymInitialize(process, NULL, TRUE) != TRUE)
-                {
-                    DisplayLastError("SymInitialize");
-                    return;
-                }
 
+                symInitialize(process);
                 capturedFrames_ = CaptureStackBackTrace(cFramesToSkip
                                             , cFramesSize
                                             , frames
@@ -142,6 +139,7 @@ namespace cppassert
                 {
                     DWORD64 frameAddr = (DWORD64)(frames[frame]);
                     frames_[frame].setAddress(frames[frame]);
+                    std::unique_lock<std::mutex> lock(mutex_);
                     if (SymFromAddr(process, frameAddr, &displacement, symbol)
                                     == TRUE)
                     {
@@ -149,9 +147,36 @@ namespace cppassert
                     }
                     else
                     {
+                        char buffer[512];
+                        sprintf_s(buffer, sizeof(buffer)
+                                , "Error getting symbol from addr: 0x%016llX %p"
+                                , frameAddr
+                                , frames[frame]);
+                        buffer[sizeof(buffer)-1] = '\0';
+                        PrintMessageToStdErr(buffer);
                         DisplayLastError("SymFromAddr");
                     }
                 }
+            }
+
+
+            /**
+             * Call to this function should
+             */
+            void symInitialize(HANDLE process)
+            {
+                std::unique_lock<std::mutex> lock(mutex_);
+                static bool symbolsInitialized = false;
+                if(symbolsInitialized==false)
+                {
+                    //should be only called once
+                    if (SymInitialize(process, NULL, TRUE) != TRUE)
+                    {
+                        DisplayLastError("SymInitialize");
+                        return;
+                    }
+                }
+                symbolsInitialized = true;
             }
 
             /**
@@ -199,3 +224,4 @@ namespace cppassert
 
     } //internal
 } //asrt
+
