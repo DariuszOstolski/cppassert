@@ -7,6 +7,7 @@
 #include <Windows.h>
 #include <DbgHelp.h>
 #include <strsafe.h>
+#include <cstdint>
 
 namespace cppassert
 {
@@ -149,10 +150,10 @@ namespace cppassert
                     {
                         char buffer[512];
                         sprintf_s(buffer, sizeof(buffer)
-                                , "Error getting symbol from addr: 0x%016llX 0x%p address size %d\n"
+                                , "Error getting symbol from addr: 0x%016llX 0x%p address size %d bits\n"
                                 , frameAddr
                                 , frames[frame]
-                                , sizeof(PVOID));
+                                , sizeof(PVOID)*sizeof(std::int8_t));
                         buffer[sizeof(buffer)-1] = '\0';
                         PrintMessageToStdErr(buffer);
                         DisplayLastError("SymFromAddr");
