@@ -12,7 +12,7 @@ init:
     - git config --global core.autocrlf input
 # clone directory
 clone_folder: c:\projects\cppassert
-platform: x64
+platform: x86
 configuration: Release
 install:
 # by default, all script lines are interpreted as batch
