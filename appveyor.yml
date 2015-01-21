@@ -24,7 +24,7 @@ build:
 before_build:    
     - echo Running cmake...
     - cd c:\projects\cppassert
-    - cmake --config Debug
+    - cmake -H. --config Debug .
     - dir *
 test_script:
   - echo %CD%
