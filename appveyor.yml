@@ -28,9 +28,6 @@ before_build:
     - dir *
 test_script:
   - echo %CD%
-  - dir tests\*
-  - dir tests\Release\*
-  - dir tests\Debug\*
   - ctest -VV
 
 
