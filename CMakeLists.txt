@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 2.8)
 project (cppassert)
 
+message("Generated with config types: ${CMAKE_CONFIGURATION_TYPES}")
+
 # Add path for custom modules
 set(CMAKE_MODULE_PATH
   ${CMAKE_MODULE_PATH}

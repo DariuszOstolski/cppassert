@@ -8,6 +8,7 @@
 #include <DbgHelp.h>
 #include <strsafe.h>
 #include <cstdint>
+#include <climits>
 
 namespace cppassert
 {
@@ -153,7 +154,7 @@ namespace cppassert
                                 , "Error getting symbol from addr: 0x%016llX 0x%p address size %d bits\n"
                                 , frameAddr
                                 , frames[frame]
-                                , sizeof(PVOID)*sizeof(std::int8_t));
+                                , sizeof(PVOID)*CHAR_BIT);
                         buffer[sizeof(buffer)-1] = '\0';
                         PrintMessageToStdErr(buffer);
                         DisplayLastError("SymFromAddr");
