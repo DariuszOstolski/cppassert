@@ -355,7 +355,7 @@ Aborted (core dumped)
     CPP_ASSERT_BOOL_IMPL_1(condition, #condition, false, true, message)
 
 #define CPP_ASSERT_TRUE_IMPL(...) CPP_ASSERT_GET_IMPL_2(__VA_ARGS__, \
-    CPP_ASSERT_FALSE_1, CPP_ASSERT_FALSE_0)(__VA_ARGS__)
+    CPP_ASSERT_TRUE_1, CPP_ASSERT_TRUE_0)(__VA_ARGS__)
 
 #define CPP_ASSERT_TRUE(...) \
     CPP_ASSERT_TRUE_IMPL(__VA_ARGS__)
@@ -640,10 +640,10 @@ Aborted (core dumped)
  */
 
 #define CPP_ASSERT_ALWAYS_TRUE_0(condition) \
-    CPP_ASSERT_BOOL_IMPL_0(condition, #condition, false, true)
+    CPP_ASSERT_ALWAYS_BOOL_0(condition, #condition, false, true)
 
 #define CPP_ASSERT_ALWAYS_TRUE_1(condition, message) \
-    CPP_ASSERT_BOOL_IMPL_1(condition, #condition, false, true, message)
+    CPP_ASSERT_ALWAYS_BOOL_1(condition, #condition, false, true, message)
 
 #define CPP_ASSERT_ALWAYS_TRUE_GET_IMPL(...) CPP_ASSERT_GET_IMPL_2(__VA_ARGS__, \
     CPP_ASSERT_ALWAYS_TRUE_1, CPP_ASSERT_ALWAYS_TRUE_0)(__VA_ARGS__)
@@ -681,10 +681,10 @@ Aborted (core dumped)
  */
 
 #define CPP_ASSERT_ALWAYS_FALSE_0(condition) \
-  CPP_ASSERT_BOOL_IMPL_0(condition, #condition, true, false)
+  CPP_ASSERT_ALWAYS_BOOL_0(condition, #condition, true, false)
 
 #define CPP_ASSERT_ALWAYS_FALSE_1(condition, message) \
-  CPP_ASSERT_BOOL_IMPL_1(condition, #condition, true, false, message)
+  CPP_ASSERT_ALWAYS_BOOL_1(condition, #condition, true, false, message)
 
 #define CPP_ASSERT_ALWAYS_FALSE_GET_IMPL(...) CPP_ASSERT_GET_IMPL_2(__VA_ARGS__, \
     CPP_ASSERT_ALWAYS_FALSE_1, CPP_ASSERT_ALWAYS_FALSE_0)(__VA_ARGS__)

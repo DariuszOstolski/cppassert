@@ -199,17 +199,17 @@ std::string getAssertionFailureMessage(const char *statement);
 
 #else
 
-# define CPP_ASSERT_IMPL_0(statement)
+# define CPP_ASSERT_IMPL_0_(statement)
 
-# define CPP_ASSERT_IMPL_1(statement, message)
+# define CPP_ASSERT_IMPL_1_(statement, message)
 
-# define CPP_ASSERT_BOOL_IMPL_0(expression, text, actual, expected)
+# define CPP_ASSERT_BOOL_IMPL_0_(expression, text, actual, expected)
 
-# define CPP_ASSERT_BOOL_IMPL_1(expression, text, actual, expected, message)
+# define CPP_ASSERT_BOOL_IMPL_1_(expression, text, actual, expected, message)
 
-# define CPP_ASSERT_PRED_IMPL_0(val1, val2, val1Text, val2Text, predicate)
+# define CPP_ASSERT_PRED_IMPL_0_(val1, val2, val1Text, val2Text, predicate)
 
-# define CPP_ASSERT_PRED_IMPL_1(val1, val2, val1Text, val2Text, predicate, message)
+# define CPP_ASSERT_PRED_IMPL_1_(val1, val2, val1Text, val2Text, predicate, message)
 
 
 #endif
