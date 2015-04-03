@@ -162,6 +162,8 @@ public:
      * @return assertion failure represented as string
      */
     std::string toString() const;
+
+    void onAssertionFailure(const AssertionMessage &message);
 private:
     void onAssertionFailure() const;
     std::uint32_t sourceFileLine_ = 0;

@@ -23,8 +23,19 @@ void AssertionFailure::operator=(const AssertionMessage &message)
     onAssertionFailure();
 }
 
+void AssertionFailure::onAssertionFailure(const AssertionMessage &message)
+{
+    if(!message.empty())
+    {
+        message_<<CppAssert::getInstance()->formatStreamedMessage(message.str());
+    }
+    stackTrace_ = CppAssert::getInstance()->getStackTraceExceptTop(1);
+    onAssertionFailure();
+}
+
 void AssertionFailure::onAssertionFailure() const
 {
+
     CppAssert::getInstance()->onAssertionFailure((*this));
 }
 

@@ -270,17 +270,17 @@ public:
  *
  * @code
 
-    CPP_ASSERT(array_size!=0) << "Array size is 0 ";
+    CPP_ASSERT(array_size!=0, "Array size is 0 ") ;
     CPP_ASSERT_TRUE(obj!=nullptr);
     CPP_ASSERT_FALSE(obj==nullptr);
     CPP_ASSERT_EQ(array, v2):
-    CPP_ASSERT_NE(array, nullptr) << " array is null ";
+    CPP_ASSERT_NE(array, nullptr, " array is null ");
     CPP_ASSERT_LT(i, array_size);
-    CPP_ASSERT_GT(records.size(), 0) << "There is no record left.";
-    CPP_ASSERT_LT(v1, v2) <<" v1 is not less than v2 ";
-    CPP_ASSERT_LE(v1, v2) <<" v1 is not less than equal v2 ";
-    CPP_ASSERT_GT(v1, v2) <<" v1 is not greater than v2 ";
-    CPP_ASSERT_GE(v1, v2) <<" v1 is not greater equal than v2";
+    CPP_ASSERT_GT(records.size(), 0, "There are no records left.");
+    CPP_ASSERT_LT(v1, v2, " v1 is not less than v2 "<<v1<<" "<<v2);
+    CPP_ASSERT_LE(v1, v2, v1<<" is not less than equal "<<v2);
+    CPP_ASSERT_GT(v1, v2, " v1 is not greater than v2 ");
+    CPP_ASSERT_GE(v1, v2, " v1 is not greater equal than v2");
 
  * @endcode
  * @{
@@ -293,7 +293,7 @@ public:
  * Example:
  * @code
 
-   CPP_ASSERT(size!=0)<<"Array size cannot be 0";
+   CPP_ASSERT(size!=0, "Array size cannot be 0");
 
  * @endcode
  * And corresponding output
@@ -310,8 +310,15 @@ Aborted (core dumped)
 
  * @endcode
  */
-#define CPP_ASSERT(statement) \
-    CPP_ASSERT_IMPL(statement)
+
+#define CPP_ASSERT_GET_IMPL_2(_1, _2, NAME, ...) NAME
+
+#define CPP_ASSERT_IMPL_GET(...) CPP_ASSERT_GET_IMPL_2(__VA_ARGS__, \
+    CPP_ASSERT_IMPL_1, CPP_ASSERT_IMPL_0)(__VA_ARGS__)
+
+
+#define CPP_ASSERT(...) \
+    CPP_ASSERT_IMPL_GET(__VA_ARGS__)
 
 /**
  * Verifies that a boolean condition is true. If condition doesn't evaluate
@@ -320,7 +327,7 @@ Aborted (core dumped)
  *
  * @code
 
-   CPP_ASSERT_TRUE(condition)<<"Condition should be true";
+   CPP_ASSERT_TRUE(condition, "Condition should be true");
 
  * @endcode
  *
@@ -341,15 +348,24 @@ Aborted (core dumped)
 
  * @endcode
  */
-#define CPP_ASSERT_TRUE(condition) \
-  CPP_ASSERT_BOOL(condition, #condition, false, true)
+#define CPP_ASSERT_TRUE_0(condition) \
+    CPP_ASSERT_BOOL_IMPL_0(condition, #condition, false, true)
+
+#define CPP_ASSERT_TRUE_1(condition, message) \
+    CPP_ASSERT_BOOL_IMPL_1(condition, #condition, false, true, message)
+
+#define CPP_ASSERT_TRUE_IMPL(...) CPP_ASSERT_GET_IMPL_2(__VA_ARGS__, \
+    CPP_ASSERT_FALSE_1, CPP_ASSERT_FALSE_0)(__VA_ARGS__)
+
+#define CPP_ASSERT_TRUE(...) \
+    CPP_ASSERT_TRUE_IMPL(__VA_ARGS__)
 
 /**
  * Verifies that a boolean condition is false. If condition doesn't evaluate
  * to false assertion handler is invoked.
  * @code
 
-   CPP_ASSERT_FALSE(size==0)<<"Size shouldnt be 0";
+   CPP_ASSERT_FALSE(size==0, "Size shouldn't be 0");
 
  * @endcode
  *
@@ -370,8 +386,21 @@ Aborted (core dumped)
 
  * @endcode
  */
-#define CPP_ASSERT_FALSE(condition) \
-  CPP_ASSERT_BOOL(condition, #condition, true, false)
+
+
+
+#define CPP_ASSERT_FALSE_0(condition) \
+    CPP_ASSERT_BOOL_IMPL_0(condition, #condition, true, false)
+
+#define CPP_ASSERT_FALSE_1(condition, message) \
+    CPP_ASSERT_BOOL_IMPL_1(condition, #condition, true, false, message)
+
+#define CPP_ASSERT_FALSE_IMPL(...) CPP_ASSERT_GET_IMPL_2(__VA_ARGS__, \
+    CPP_ASSERT_FALSE_1, CPP_ASSERT_FALSE_0)(__VA_ARGS__)
+
+
+#define CPP_ASSERT_FALSE(...) \
+    CPP_ASSERT_FALSE_IMPL(__VA_ARGS__)
 
 /**
  * @{
@@ -431,18 +460,83 @@ Aborted (core dumped)
  *
  */
 
-#define CPP_ASSERT_EQ(val1, val2) \
-  CPP_ASSERT_PRED_IMPL(val1, val2,  CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), ==)
-#define CPP_ASSERT_NE(val1, val2) \
-  CPP_ASSERT_PRED_IMPL(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), !=)
-#define CPP_ASSERT_LE(val1, val2) \
-  CPP_ASSERT_PRED_IMPL(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), <=)
-#define CPP_ASSERT_LT(val1, val2) \
-  CPP_ASSERT_PRED_IMPL(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), <)
-#define CPP_ASSERT_GE(val1, val2) \
-  CPP_ASSERT_PRED_IMPL(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), >=)
-#define CPP_ASSERT_GT(val1, val2) \
-  CPP_ASSERT_PRED_IMPL(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), >)
+#define CPP_ASSERT_LT_0(val1, val2) \
+  CPP_ASSERT_PRED_IMPL_0(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), <)
+
+#define CPP_ASSERT_LT_1(val1, val2, msg) \
+  CPP_ASSERT_PRED_IMPL_1(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), <, msg)
+
+#define CPP_ASSERT_EQ_0(val1, val2) \
+  CPP_ASSERT_PRED_IMPL_0(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), ==)
+
+#define CPP_ASSERT_EQ_1(val1, val2, msg) \
+  CPP_ASSERT_PRED_IMPL_1(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), ==, msg)
+
+#define CPP_ASSERT_NE_0(val1, val2) \
+  CPP_ASSERT_PRED_IMPL_0(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), !=)
+
+#define CPP_ASSERT_NE_1(val1, val2, msg) \
+  CPP_ASSERT_PRED_IMPL_1(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), !=, msg)
+
+
+#define CPP_ASSERT_LE_0(val1, val2) \
+  CPP_ASSERT_PRED_IMPL_0(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), <=)
+
+#define CPP_ASSERT_LE_1(val1, val2, msg) \
+  CPP_ASSERT_PRED_IMPL_1(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), <=, msg)
+
+#define CPP_ASSERT_GE_0(val1, val2) \
+  CPP_ASSERT_PRED_IMPL_0(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), >=)
+
+#define CPP_ASSERT_GE_1(val1, val2, msg) \
+  CPP_ASSERT_PRED_IMPL_1(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), >=, msg)
+
+#define CPP_ASSERT_GT_0(val1, val2) \
+  CPP_ASSERT_PRED_IMPL_0(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), >)
+
+#define CPP_ASSERT_GT_1(val1, val2, msg) \
+  CPP_ASSERT_PRED_IMPL_1(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), >, msg)
+
+// Define a macro that uses the "paired, sliding arg list"
+// technique to select the appropriate override.
+
+#define CPP_ASSERT_GET_IMPL_3(_1, _2, _3, NAME, ...) NAME
+
+// Define a macro that process 3 or 2 arguments.
+#define CPP_ASSERT_LT_IMPL_(...) CPP_ASSERT_GET_IMPL_3(__VA_ARGS__, \
+    CPP_ASSERT_LT_1, CPP_ASSERT_LT_0)(__VA_ARGS__)
+
+// Define a macro that process 3 or 2 arguments
+#define CPP_ASSERT_EQ_IMPL_(...) CPP_ASSERT_GET_IMPL_3(__VA_ARGS__, \
+    CPP_ASSERT_EQ_1, CPP_ASSERT_EQ_0)(__VA_ARGS__)
+
+// Define a macro that process 3 or 2 arguments
+#define CPP_ASSERT_NE_IMPL_(...) CPP_ASSERT_GET_IMPL_3(__VA_ARGS__, \
+    CPP_ASSERT_NE_1, CPP_ASSERT_NE_0)(__VA_ARGS__)
+
+#define CPP_ASSERT_LE_IMPL_(...) CPP_ASSERT_GET_IMPL_3(__VA_ARGS__, \
+    CPP_ASSERT_LE_1, CPP_ASSERT_LE_0)(__VA_ARGS__)
+
+#define CPP_ASSERT_GE_IMPL_(...) CPP_ASSERT_GET_IMPL_3(__VA_ARGS__, \
+    CPP_ASSERT_GE_1, CPP_ASSERT_GE_0)(__VA_ARGS__)
+
+#define CPP_ASSERT_GT_IMPL_(...) CPP_ASSERT_GET_IMPL_3(__VA_ARGS__, \
+    CPP_ASSERT_GT_1, CPP_ASSERT_GT_0)(__VA_ARGS__)
+
+
+#define CPP_ASSERT_EQ(...) \
+  CPP_ASSERT_EQ_IMPL_(__VA_ARGS__)
+#define CPP_ASSERT_NE(...) \
+  CPP_ASSERT_NE_IMPL_(__VA_ARGS__)
+#define CPP_ASSERT_LE(...) \
+  CPP_ASSERT_LE_IMPL_(__VA_ARGS__)
+#define CPP_ASSERT_LT(...) \
+  CPP_ASSERT_LT_IMPL_(__VA_ARGS__)
+#define CPP_ASSERT_GE(...) \
+  CPP_ASSERT_GE_IMPL_(__VA_ARGS__)
+#define CPP_ASSERT_GT(...) \
+  CPP_ASSERT_GT_IMPL_(__VA_ARGS__)
+
 /** @}*/
 
 /**
@@ -464,17 +558,17 @@ Aborted (core dumped)
  *
  * @code
 
-    CPP_ASSERT_ALWAYS(array_size!=0) << "Array size is 0 ";
+    CPP_ASSERT_ALWAYS(array_size!=0, "Array size is 0 ") ;
     CPP_ASSERT_ALWAYS_TRUE(obj!=nullptr);
     CPP_ASSERT_ALWAYS_FALSE(obj==nullptr);
     CPP_ASSERT_ALWAYS_EQ(array, v2):
-    CPP_ASSERT_ALWAYS_NE(array, nullptr) << " array is null ";
+    CPP_ASSERT_ALWAYS_NE(array, nullptr, " array is null ");
     CPP_ASSERT_ALWAYS_LT(i, array_size);
-    CPP_ASSERT_ALWAYS_GT(records.size(), 0) << "There is no record left.";
-    CPP_ASSERT_ALWAYS_LT(v1, v2) <<" v1 is not less than v2 ";
-    CPP_ASSERT_ALWAYS_LE(v1, v2) <<" v1 is not less than equal v2 ";
-    CPP_ASSERT_ALWAYS_GT(v1, v2) <<" v1 is not greater than v2 ";
-    CPP_ASSERT_ALWAYS_GE(v1, v2) <<" v1 is not greater equal than v2";
+    CPP_ASSERT_ALWAYS_GT(records.size(), 0, "There are no records left.");
+    CPP_ASSERT_ALWAYS_LT(v1, v2, " v1 is not less than v2 ");
+    CPP_ASSERT_ALWAYS_LE(v1, v2, " v1 is not less than equal v2 ");
+    CPP_ASSERT_ALWAYS_GT(v1, v2, " v1 is not greater than v2 ");
+    CPP_ASSERT_ALWAYS_GE(v1, v2, " v1 is not greater equal than v2");
 
  * @endcode
  *
@@ -491,7 +585,7 @@ Aborted (core dumped)
  *
  * @code
 
-   CPP_ASSERT_ALWAYS(size==0)<<"Size shouldnt be 0";
+   CPP_ASSERT_ALWAYS(size==0, "Size shouldnt be 0") ;
 
  * @endcode
  *
@@ -510,8 +604,12 @@ Aborted (core dumped)
 
  * @endcode
  */
-#define CPP_ASSERT_ALWAYS(statement) \
-    CPP_ASSERT_ALWAYS_IMPL(statement)
+
+#define CPP_ASSERT_ALWAYS_GET_IMPL(...) CPP_ASSERT_GET_IMPL_2(__VA_ARGS__, \
+    CPP_ASSERT_ALWAYS_IMPL_1, CPP_ASSERT_ALWAYS_IMPL_0)(__VA_ARGS__)
+
+#define CPP_ASSERT_ALWAYS(...) \
+    CPP_ASSERT_ALWAYS_GET_IMPL(__VA_ARGS__)
 
 /**
  * Verifies that condition evaluates to true. If condition doesn't evaluate
@@ -540,8 +638,19 @@ Aborted (core dumped)
 
  * @endcode
  */
-#define CPP_ASSERT_ALWAYS_TRUE(condition) \
-  CPP_ASSERT_ALWAYS_BOOL(condition, #condition, false, true)
+
+#define CPP_ASSERT_ALWAYS_TRUE_0(condition) \
+    CPP_ASSERT_BOOL_IMPL_0(condition, #condition, false, true)
+
+#define CPP_ASSERT_ALWAYS_TRUE_1(condition, message) \
+    CPP_ASSERT_BOOL_IMPL_1(condition, #condition, false, true, message)
+
+#define CPP_ASSERT_ALWAYS_TRUE_GET_IMPL(...) CPP_ASSERT_GET_IMPL_2(__VA_ARGS__, \
+    CPP_ASSERT_ALWAYS_TRUE_1, CPP_ASSERT_ALWAYS_TRUE_0)(__VA_ARGS__)
+
+#define CPP_ASSERT_ALWAYS_TRUE(...) \
+    CPP_ASSERT_ALWAYS_TRUE_GET_IMPL(__VA_ARGS__)
+
 
 /**
  * Verifies that a boolean condition is false. If condition doesn't evaluate
@@ -570,8 +679,18 @@ Aborted (core dumped)
 
  * @endcode
  */
-#define CPP_ASSERT_ALWAYS_FALSE(condition) \
-  CPP_ASSERT_ALWAYS_BOOL(condition, #condition, true, false)
+
+#define CPP_ASSERT_ALWAYS_FALSE_0(condition) \
+  CPP_ASSERT_BOOL_IMPL_0(condition, #condition, true, false)
+
+#define CPP_ASSERT_ALWAYS_FALSE_1(condition, message) \
+  CPP_ASSERT_BOOL_IMPL_1(condition, #condition, true, false, message)
+
+#define CPP_ASSERT_ALWAYS_FALSE_GET_IMPL(...) CPP_ASSERT_GET_IMPL_2(__VA_ARGS__, \
+    CPP_ASSERT_ALWAYS_FALSE_1, CPP_ASSERT_ALWAYS_FALSE_0)(__VA_ARGS__)
+
+#define CPP_ASSERT_ALWAYS_FALSE(...) \
+  CPP_ASSERT_ALWAYS_FALSE_GET_IMPL(__VA_ARGS__)
 
 /**
  * @{
@@ -629,18 +748,82 @@ Aborted (core dumped)
 
  * @endcode
  */
-#define CPP_ASSERT_ALWAYS_EQ(val1, val2) \
-  CPP_ASSERT_ALWAYS_PRED_IMPL(val1, val2,  CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), ==)
-#define CPP_ASSERT_ALWAYS_NE(val1, val2) \
-  CPP_ASSERT_ALWAYS_PRED_IMPL(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), !=)
-#define CPP_ASSERT_ALWAYS_LE(val1, val2) \
-  CPP_ASSERT_ALWAYS_PRED_IMPL(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), <=)
-#define CPP_ASSERT_ALWAYS_LT(val1, val2) \
-  CPP_ASSERT_ALWAYS_PRED_IMPL(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), <)
-#define CPP_ASSERT_ALWAYS_GE(val1, val2) \
-  CPP_ASSERT_ALWAYS_PRED_IMPL(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), >=)
-#define CPP_ASSERT_ALWAYS_GT(val1, val2) \
-  CPP_ASSERT_ALWAYS_PRED_IMPL(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), >)
+#define CPP_ASSERT_ALWAYS_LT_0(val1, val2) \
+  CPP_ASSERT_ALWAYS_PRED_IMPL_0(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), <)
+
+#define CPP_ASSERT_ALWAYS_LT_1(val1, val2, msg) \
+  CPP_ASSERT_ALWAYS_PRED_IMPL_1(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), <, msg)
+
+#define CPP_ASSERT_ALWAYS_EQ_0(val1, val2) \
+  CPP_ASSERT_ALWAYS_PRED_IMPL_0(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), ==)
+
+#define CPP_ASSERT_ALWAYS_EQ_1(val1, val2, msg) \
+  CPP_ASSERT_ALWAYS_PRED_IMPL_1(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), ==, msg)
+
+#define CPP_ASSERT_ALWAYS_NE_0(val1, val2) \
+  CPP_ASSERT_ALWAYS_PRED_IMPL_0(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), !=)
+
+#define CPP_ASSERT_ALWAYS_NE_1(val1, val2, msg) \
+  CPP_ASSERT_ALWAYS_PRED_IMPL_1(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), !=, msg)
+
+
+#define CPP_ASSERT_ALWAYS_LE_0(val1, val2) \
+  CPP_ASSERT_ALWAYS_PRED_IMPL_0(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), <=)
+
+#define CPP_ASSERT_ALWAYS_LE_1(val1, val2, msg) \
+  CPP_ASSERT_ALWAYS_PRED_IMPL_1(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), <=, msg)
+
+#define CPP_ASSERT_ALWAYS_GE_0(val1, val2) \
+  CPP_ASSERT_ALWAYS_PRED_IMPL_0(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), >=)
+
+#define CPP_ASSERT_ALWAYS_GE_1(val1, val2, msg) \
+  CPP_ASSERT_ALWAYS_PRED_IMPL_1(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), >=, msg)
+
+#define CPP_ASSERT_ALWAYS_GT_0(val1, val2) \
+  CPP_ASSERT_ALWAYS_PRED_IMPL_0(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), >)
+
+#define CPP_ASSERT_ALWAYS_GT_1(val1, val2, msg) \
+  CPP_ASSERT_ALWAYS_PRED_IMPL_1(val1, val2, CPP_ASSERT_STRING(val1), CPP_ASSERT_STRING(val2), >, msg)
+
+// Define a macro that uses the "paired, sliding arg list"
+// technique to select the appropriate override.
+
+
+// Define a macro that process 3 or 2 arguments.
+#define CPP_ASSERT_ALWAYS_LT_IMPL_(...) CPP_ASSERT_GET_IMPL_3(__VA_ARGS__, \
+    CPP_ASSERT_ALWAYS_LT_1, CPP_ASSERT_ALWAYS_LT_0)(__VA_ARGS__)
+
+// Define a macro that process 3 or 2 arguments
+#define CPP_ASSERT_ALWAYS_EQ_IMPL_(...) CPP_ASSERT_GET_IMPL_3(__VA_ARGS__, \
+    CPP_ASSERT_ALWAYS_EQ_1, CPP_ASSERT_ALWAYS_EQ_0)(__VA_ARGS__)
+
+// Define a macro that process 3 or 2 arguments
+#define CPP_ASSERT_ALWAYS_NE_IMPL_(...) CPP_ASSERT_GET_IMPL_3(__VA_ARGS__, \
+    CPP_ASSERT_ALWAYS_NE_1, CPP_ASSERT_ALWAYS_NE_0)(__VA_ARGS__)
+
+#define CPP_ASSERT_ALWAYS_LE_IMPL_(...) CPP_ASSERT_GET_IMPL_3(__VA_ARGS__, \
+    CPP_ASSERT_ALWAYS_LE_1, CPP_ASSERT_ALWAYS_LE_0)(__VA_ARGS__)
+
+#define CPP_ASSERT_ALWAYS_GE_IMPL_(...) CPP_ASSERT_GET_IMPL_3(__VA_ARGS__, \
+    CPP_ASSERT_ALWAYS_GE_1, CPP_ASSERT_ALWAYS_GE_0)(__VA_ARGS__)
+
+#define CPP_ASSERT_ALWAYS_GT_IMPL_(...) CPP_ASSERT_GET_IMPL_3(__VA_ARGS__, \
+    CPP_ASSERT_ALWAYS_GT_1, CPP_ASSERT_ALWAYS_GT_0)(__VA_ARGS__)
+
+
+#define CPP_ASSERT_ALWAYS_EQ(...) \
+  CPP_ASSERT_ALWAYS_EQ_IMPL_(__VA_ARGS__)
+#define CPP_ASSERT_ALWAYS_NE(...) \
+  CPP_ASSERT_ALWAYS_NE_IMPL_(__VA_ARGS__)
+#define CPP_ASSERT_ALWAYS_LE(...) \
+  CPP_ASSERT_ALWAYS_LE_IMPL_(__VA_ARGS__)
+#define CPP_ASSERT_ALWAYS_LT(...) \
+  CPP_ASSERT_ALWAYS_LT_IMPL_(__VA_ARGS__)
+#define CPP_ASSERT_ALWAYS_GE(...) \
+  CPP_ASSERT_ALWAYS_GE_IMPL_(__VA_ARGS__)
+#define CPP_ASSERT_ALWAYS_GT(...) \
+  CPP_ASSERT_ALWAYS_GT_IMPL_(__VA_ARGS__)
+
 /** @}*/
 
 /**
