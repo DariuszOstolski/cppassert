@@ -1,4 +1,5 @@
-#include <iostream>
+#include <cstdio>
+#include <cstdint>
 #include <cppassert/details/Helpers.hpp>
 
 namespace cppassert
