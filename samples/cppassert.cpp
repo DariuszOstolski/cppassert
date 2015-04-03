@@ -14,7 +14,7 @@ int check_args(int size)
 int main(int argc, char **)
 {
     const int ARGS_MAX = 5;
-    std::cerr<<"Hello "<<argc<<std::endl;
+    std::cerr<<"Hello "<<argc<<" max: "<<ARGS_MAX<<std::endl;
     CPP_ASSERT_LT(argc, ARGS_MAX);
 
     CPP_ASSERT_LT(argc, ARGS_MAX, " argc is not lower than "
