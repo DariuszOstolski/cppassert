@@ -120,11 +120,10 @@ int main(int argc, char **)
 And corresponding output:
 
 ```
-./cppassertExample 
-Hello 1
-World 
-/cppassert/samples/cppassert.cpp:10: int check_args(int): Assertion failure: size!=0
-Size shouldnt be 0
+./cppassertExample 1 2 3 4 5
+Hello 6
+/cppassert/samples/cppassert.cpp:10: int check_args(int): Assertion failure: argc<ARGS_MAX
+argc is not lower than 5
 0 0x40ffe2 ./cppassertExample(check_args(int)+0xf5) [0x40ffe2]
 1 0x41058b ./cppassertExample(main+0x472) [0x41058b]
 2 0x7f8094557ec5 /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf5) [0x7f8094557ec5]
