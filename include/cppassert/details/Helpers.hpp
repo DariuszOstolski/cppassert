@@ -68,56 +68,41 @@ std::string getAssertionFailureMessage(const char *statement);
 # define CPP_ASSERT_ENABLED 1
 #endif
 
-// The GNU compiler emits a warning if nested "if" statements are followed by
-// an "else" statement and braces are not used to explicitly disambiguate the
-// "else" binding.  This leads to problems with code like:
-//
-//   if (gate)
-//     ASSERT_*(condition) << "Some message";
-//
-// The "switch (0) case 0:" idiom is used to suppress this.
-#ifdef __INTEL_COMPILER
-# define CPP_ASSERT_AMBIGUOUS_ELSE_BLOCKER
-#else
-# define CPP_ASSERT_AMBIGUOUS_ELSE_BLOCKER switch (0) case 0: default:
-#endif
-
 #ifndef CPP_ASSERT_DISABLE_ALL
 
 # define CPP_ASSERT_BOOL_IMPL_0_(expression, text, actual, expected) \
-    CPP_ASSERT_AMBIGUOUS_ELSE_BLOCKER \
+    do \
+    { \
         if((expression)==expected) \
+        { \
             ; \
+        }\
         else \
+        { \
             ::cppassert::AssertionFailure(__LINE__, __FILE__, \
                                     CPP_ASSERT_FUNCTION_NAME, \
                 ::cppassert::internal::getBoolAssertionFailureMessage(text, \
                                             CPP_ASSERT_STRING(actual), \
-                                            CPP_ASSERT_STRING(expected))).onAssertionFailure(::cppassert::AssertionMessage()) \
+                                            CPP_ASSERT_STRING(expected))).onAssertionFailure(::cppassert::AssertionMessage()); \
+        } \
+    } while(false)
 
 # define CPP_ASSERT_BOOL_IMPL_1_(expression, text, actual, expected, message) \
-    CPP_ASSERT_AMBIGUOUS_ELSE_BLOCKER \
+    do \
+    {   \
         if((expression)==expected) \
+        { \
             ; \
+        } \
         else \
+        { \
             ::cppassert::AssertionFailure(__LINE__, __FILE__, \
                                     CPP_ASSERT_FUNCTION_NAME, \
                 ::cppassert::internal::getBoolAssertionFailureMessage(text, \
                                             CPP_ASSERT_STRING(actual), \
-                                            CPP_ASSERT_STRING(expected))).onAssertionFailure(::cppassert::AssertionMessage()<<message) \
-
-
-# define CPP_ASSERT_BOOL_IMPL_(expression, text, actual, expected) \
-    CPP_ASSERT_AMBIGUOUS_ELSE_BLOCKER \
-        if((expression)==expected) \
-            ; \
-        else \
-            ::cppassert::AssertionFailure(__LINE__, __FILE__, \
-                                    CPP_ASSERT_FUNCTION_NAME, \
-                ::cppassert::internal::getBoolAssertionFailureMessage(text, \
-                                            CPP_ASSERT_STRING(actual), \
-                                            CPP_ASSERT_STRING(expected))) = \
-                                        ::cppassert::AssertionMessage()
+                                            CPP_ASSERT_STRING(expected))).onAssertionFailure(::cppassert::AssertionMessage()<<message); \
+        } \
+    } while(false)
 
 # define CPP_ASSERT_IMPL_0_(statement) \
     do \

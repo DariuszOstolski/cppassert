@@ -69,7 +69,7 @@ TEST_F(AssertionFailureTest, operatorEq)
                                 , std::move(message));
     cppassert::AssertionMessage msg;
     msg<<"test";
-    assertion = msg;
+    assertion.onAssertionFailure(msg);
 
     const std::string expectedMessage = R"(file:255: my_function: my message
 test

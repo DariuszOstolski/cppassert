@@ -140,41 +140,10 @@ private:
     std::unique_ptr<std::stringstream> stream_;
 };
 
-/**
- * Assertion message class used in release mode builds.
- * Provides empty inline methods that should be removed from
- * object code by optimizing compiler
- */
-class ReleaseAssertionMessage
-{
-public:
-    /**
-     * Type definition for std::ostream manipulators like @c std::endl
-     */
-    using StdIoManipulatorType = std::ostream& (*)(std::ostream&);
-
-    /**
-     * Should be removed by compiler in release mode builds
-     */
-    inline ReleaseAssertionMessage& operator<<(StdIoManipulatorType)
-    {
-      return (*this);
-    }
-
-    /**
-     * Should be removed by compiler in release mode builds
-     */
-    template <typename T>
-    inline ReleaseAssertionMessage& operator<<(const T& )
-    {
-        return *this;
-    }
-};
 
 } //internal
 
 using AssertionMessage = internal::AssertionMessage;
-using ReleaseAssertionMessage = internal::ReleaseAssertionMessage;
 
 } //asrt
 

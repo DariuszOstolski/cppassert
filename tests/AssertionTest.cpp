@@ -10,7 +10,7 @@ protected:
     std::string formatStreamedMessage(const std::string &msg)
     {
         EXPECT_EQ(expectedStreamMessage_, msg);
-        return msg;
+        return "\n"+msg;
     }
 
     std::int32_t assertionHandlerCounter_ = 0;

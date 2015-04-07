@@ -13,15 +13,6 @@ AssertionFailure::AssertionFailure(std::uint32_t line
     message_<<message;
 }
 
-void AssertionFailure::operator=(const AssertionMessage &message)
-{
-    if(!message.empty())
-    {
-        message_<<CppAssert::getInstance()->formatStreamedMessage(message.str());
-    }
-    stackTrace_ = CppAssert::getInstance()->getStackTraceExceptTop(1);
-    onAssertionFailure();
-}
 
 void AssertionFailure::onAssertionFailure(const AssertionMessage &message)
 {
@@ -30,12 +21,6 @@ void AssertionFailure::onAssertionFailure(const AssertionMessage &message)
         message_<<CppAssert::getInstance()->formatStreamedMessage(message.str());
     }
     stackTrace_ = CppAssert::getInstance()->getStackTraceExceptTop(1);
-    onAssertionFailure();
-}
-
-void AssertionFailure::onAssertionFailure() const
-{
-
     CppAssert::getInstance()->onAssertionFailure((*this));
 }
 

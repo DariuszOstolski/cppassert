@@ -45,7 +45,7 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
     if(CMAKE_BUILD_TYPE STREQUAL "Test")
         set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb3 -O0 -ftest-coverage -fprofile-arcs")
     endif (CMAKE_BUILD_TYPE STREQUAL "Test")
-    set(CMAKE_CXX_FLAGS "-Wextra -Wmissing-include-dirs -W -Wall -Werror -std=c++11 ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_CXX_FLAGS "-pedantic -Wextra -Wmissing-include-dirs -W -Wall -Werror -std=c++11 ${CMAKE_CXX_FLAGS}")
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL Intel)
   # using Intel C++
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)

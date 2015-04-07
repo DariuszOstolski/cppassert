@@ -114,13 +114,6 @@ public:
     }
 
     /**
-     * Invokes assertion handler with a given message
-     * @param[in]   message Custom user defined essage associated with an
-     *                      assertion
-     */
-    void operator=(const AssertionMessage &message);
-
-    /**
      * Returns source file line associated with failed assertion
      * @return source file line
      */
@@ -165,7 +158,6 @@ public:
 
     void onAssertionFailure(const AssertionMessage &message);
 private:
-    void onAssertionFailure() const;
     std::uint32_t sourceFileLine_ = 0;
     const char *sourceFileName_ = nullptr;
     const char *functionName_ = nullptr;

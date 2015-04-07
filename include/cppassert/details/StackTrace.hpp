@@ -32,7 +32,8 @@ public:
         /**
          * Returns string that describe the address
          * symbolically
-         * @return
+         *
+         * @return symbol name or nu
          */
         const char *getSymbol() const;
     protected:
