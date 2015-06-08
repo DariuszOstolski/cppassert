@@ -23,6 +23,7 @@ build:
   verbosity: normal
 # scripts to run before build
 before_build:    
+    - set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
     - echo Running cmake...
     - cd c:\projects\cppassert
     - cmake -H. --config Debug .
