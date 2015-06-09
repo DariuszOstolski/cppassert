@@ -28,8 +28,8 @@ install:
  - if [ "$CXX" == "clang++" ]; then cd .. && sudo cp -r include/* /usr/include/c++/v1/; fi
  - if [ "$CXX" == "clang++" ]; then cd /usr/lib && sudo ln -sf libc++.so.1.0 libc++.so; fi
  - if [ "$CXX" == "clang++" ]; then sudo ln -sf libc++.so.1.0 libc++.so.1 && cd $cwd; fi 
- - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.4" CC="clang-3.4"; fi
  - if [ "$CXX" == "clang++" ]; then echo "CPP_ASSERT_DIR=${CPP_ASSERT_DIR}" && cd ${CPP_ASSERT_DIR}; fi
+ - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.4" CC="clang-3.4"; fi
 env:
 - BUILD_TYPE=Debug
 - BUILD_TYPE=Release
