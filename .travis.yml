@@ -33,6 +33,8 @@ env:
 - BUILD_TYPE=Test
 script:
 - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE - .
+- pwd
+- ls -alh
 - make 
 - make test
 after_failure:
