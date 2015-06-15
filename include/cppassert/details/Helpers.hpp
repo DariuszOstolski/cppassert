@@ -10,6 +10,22 @@
 
 #define CPP_ASSERT_STRING(x)	#x
 
+#define CPP_ASSERT_RETURN_COUNT(_1, _2, _3, count, ...) count
+#define CPP_ASSERT_COUNT_ARGS_IMPL(args) \
+   CPP_ASSERT_RETURN_COUNT args
+#define CPP_ASSERT_COUNT_ARGS(...) \
+   CPP_ASSERT_COUNT_ARGS_IMPL((__VA_ARGS__, 3, 2, 1, 0))
+
+ /* Pick the right helper macro to invoke. */
+#define CPP_ASSERT_OVERLOAD_MACRO2(name, count) name##count
+#define CPP_ASSERT_OVERLOAD_MACRO1(name, count) CPP_ASSERT_OVERLOAD_MACRO2(name, count)
+#define CPP_ASSERT_OVERLOAD_MACRO(name, count) CPP_ASSERT_OVERLOAD_MACRO1(name, count)
+
+ /* The actual macro. */
+#define CPP_ASSERT_GLUE(x, y) x y
+#define CPP_ASSERT_CALL_OVERLOAD(name, ...) \
+	CPP_ASSERT_GLUE(CPP_ASSERT_OVERLOAD_MACRO(name, CPP_ASSERT_COUNT_ARGS(__VA_ARGS__)), (__VA_ARGS__))
+
 namespace cppassert
 {
 namespace internal
@@ -60,6 +76,14 @@ std::string getAssertionFailureMessage(const char *statement);
 #   define CPP_ASSERT_FUNCTION_NAME	__func__
 #endif
 
+#ifdef WIN32
+#  define CPP_ASSERT_WHILE_FALSE __pragma( warning(push) ) \
+               __pragma( warning(disable:4127) ) \
+               while( false ) \
+               __pragma( warning(pop) )
+#else
+#  define CPP_ASSERT_WHILE_FALSE while( FALSE )
+#endif
 
 #define CPP_ASSERT_VOID_CAST static_cast<void>
 #define CPP_ASSERT_MARK_UNUSED(variable) static_cast<void>(variable)
@@ -67,6 +91,7 @@ std::string getAssertionFailureMessage(const char *statement);
 #ifndef NDEBUG
 # define CPP_ASSERT_ENABLED 1
 #endif
+
 
 #ifndef CPP_ASSERT_DISABLE_ALL
 
@@ -85,7 +110,7 @@ std::string getAssertionFailureMessage(const char *statement);
                                             CPP_ASSERT_STRING(actual), \
                                             CPP_ASSERT_STRING(expected))).onAssertionFailure(::cppassert::AssertionMessage()); \
         } \
-    } while(false)
+    } CPP_ASSERT_WHILE_FALSE
 
 # define CPP_ASSERT_BOOL_IMPL_1_(expression, text, actual, expected, message) \
     do \
@@ -102,7 +127,7 @@ std::string getAssertionFailureMessage(const char *statement);
                                             CPP_ASSERT_STRING(actual), \
                                             CPP_ASSERT_STRING(expected))).onAssertionFailure(::cppassert::AssertionMessage()<<message); \
         } \
-    } while(false)
+    } CPP_ASSERT_WHILE_FALSE
 
 # define CPP_ASSERT_IMPL_0_(statement) \
     do \
@@ -119,7 +144,7 @@ std::string getAssertionFailureMessage(const char *statement);
                                         CPP_ASSERT_STRING(statement) \
                                         ) ).onAssertionFailure(::cppassert::AssertionMessage()); \
         } \
-    } while(false)
+    } CPP_ASSERT_WHILE_FALSE
 
 # define CPP_ASSERT_IMPL_1_(statement, message) \
     do                  \
@@ -136,7 +161,7 @@ std::string getAssertionFailureMessage(const char *statement);
                                         CPP_ASSERT_STRING(statement) \
                                         ) ).onAssertionFailure(::cppassert::AssertionMessage()<<message); \
         } \
-    } while(false)
+    } CPP_ASSERT_WHILE_FALSE
 
 
 # define CPP_ASSERT_PRED_IMPL_0_(val1, val2, val1Text, val2Text, predicate) \
@@ -156,7 +181,7 @@ std::string getAssertionFailureMessage(const char *statement);
                                         std::move(::cppassert::AssertionMessage()<<val1), \
                                         std::move(::cppassert::AssertionMessage()<<val2))).onAssertionFailure(::cppassert::AssertionMessage()); \
         } \
-    } while(false)
+    } CPP_ASSERT_WHILE_FALSE
 
 
 # define CPP_ASSERT_PRED_IMPL_1_(val1, val2, val1Text, val2Text, predicate, message) \
@@ -178,7 +203,7 @@ std::string getAssertionFailureMessage(const char *statement);
                                         std::move(::cppassert::AssertionMessage()<<val2)) \
                                         ).onAssertionFailure(::cppassert::AssertionMessage()<<message); \
         } \
-    } while(false)
+    } CPP_ASSERT_WHILE_FALSE
 
 
 
@@ -199,12 +224,13 @@ std::string getAssertionFailureMessage(const char *statement);
 
 #endif
 
+
 #ifdef CPP_ASSERT_ENABLED
 
-# define CPP_ASSERT_IMPL_0(statement) \
+# define CPP_ASSERT_IMPL_1(statement) \
     CPP_ASSERT_IMPL_0_(statement)
 
-# define CPP_ASSERT_IMPL_1(statement, message) \
+# define CPP_ASSERT_IMPL_2(statement, message) \
     CPP_ASSERT_IMPL_1_(statement, message)
 
 # define CPP_ASSERT_BOOL_IMPL_0(expression, text, actual, expected) \
@@ -221,9 +247,9 @@ std::string getAssertionFailureMessage(const char *statement);
 
 #else
 
-# define CPP_ASSERT_IMPL_0(statement)
+# define CPP_ASSERT_IMPL_1(statement)
 
-# define CPP_ASSERT_IMPL_1(statement, message)
+# define CPP_ASSERT_IMPL_2(statement, message)
 
 # define CPP_ASSERT_BOOL_IMPL_0(expression, text, actual, expected)
 
@@ -236,10 +262,10 @@ std::string getAssertionFailureMessage(const char *statement);
 #endif
 
 
-#define CPP_ASSERT_ALWAYS_IMPL_0(statement) \
+#define CPP_ASSERT_ALWAYS_IMPL_1(statement) \
     CPP_ASSERT_IMPL_0_(statement)
 
-#define CPP_ASSERT_ALWAYS_IMPL_1(statement, message) \
+#define CPP_ASSERT_ALWAYS_IMPL_2(statement, message) \
     CPP_ASSERT_IMPL_1_(statement, message)
 
 #define CPP_ASSERT_ALWAYS_BOOL_0(expression, text, actual, expected) \
