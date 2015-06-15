@@ -82,7 +82,7 @@ std::string getAssertionFailureMessage(const char *statement);
                while( false ) \
                __pragma( warning(pop) )
 #else
-#  define CPP_ASSERT_WHILE_FALSE while( FALSE )
+#  define CPP_ASSERT_WHILE_FALSE while( false )
 #endif
 
 #define CPP_ASSERT_VOID_CAST static_cast<void>
