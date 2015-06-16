@@ -137,7 +137,7 @@ Aborted (core dumped)
 This library is supported on following compilers
 - g++ >= 4.8
 - clang >= 3.4.1
-- Visual C++ Compiler >= 2015
+- Visual C++ Compiler >= 2013
 - on Oracle Solaris Studio >= 12.4 will compile without test, currently there is 
   a bug(compiler assertion fails) in compiler for which Im waiting to be 
   resolved
