@@ -4,11 +4,14 @@
 #include <memory>
 #include <mutex>
 #include <cstdlib>
-#include <Windows.h>
-#include <DbgHelp.h>
-#include <strsafe.h>
 #include <cstdint>
 #include <climits>
+#include <Windows.h>
+#pragma warning(push)
+#pragma warning(disable: 4091 )
+#include <DbgHelp.h>
+#pragma warning(pop)
+#include <strsafe.h>
 
 namespace cppassert
 {
