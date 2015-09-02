@@ -102,8 +102,8 @@ TEST(AssertionMessageTest, stdManipulatorTest)
 
 TEST(AssertionMessageTest, pointerTest)
 {
-    void *ptr = (void *)(0x00000001);
-    const std::string expectedMessage((sizeof(void *)==8  ? "0x0000000000000001" :  "0x00000001" ));
+    void *ptr = (void *)(0x0000000a);
+    const std::string expectedMessage((sizeof(void *)==8  ? "0x000000000000000a" :  "0x0000000a" ));
     cppassert::internal::AssertionMessage message;
     message<<ptr;
     EXPECT_EQ(expectedMessage, message.str());

@@ -96,7 +96,7 @@ std::string formatFrame(std::uint32_t frameNumber
                         , const char *symbol )
 {
     AssertionMessage msg;
-    msg<<frameNumber<<' '
+    msg<<std::setw(4)<<frameNumber<<' '
         <<address<<' '
         <<symbol<<std::endl;
     return msg.str();
