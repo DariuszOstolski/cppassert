@@ -99,3 +99,12 @@ TEST(AssertionMessageTest, stdManipulatorTest)
     message<<std::hex<<std::showbase<<n<<std::endl;
     EXPECT_EQ(expectedMessage, message.str());
 }
+
+TEST(AssertionMessageTest, pointerTest)
+{
+    void *ptr = (void *)(0x00000001);
+    const std::string expectedMessage("0x0000000000000001");
+    cppassert::internal::AssertionMessage message;
+    message<<ptr;
+    EXPECT_EQ(expectedMessage, message.str());
+}

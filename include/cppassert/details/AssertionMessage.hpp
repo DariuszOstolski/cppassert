@@ -4,12 +4,56 @@
 #include <memory>
 #include <sstream>
 #include <cstddef>
+#include <iomanip>
+#include <type_traits>
+#include <cstdint>
 
 namespace cppassert
 {
 namespace internal
 {
 
+    template<typename T>
+    struct PointerHelper 
+    {
+        PointerHelper(std::ostream &str)
+            :stream_(str)
+        {
+            
+        }
+        
+        inline std::ostream& write(const T *const &pointer) 
+        {
+             stream_<<pointer;
+             return stream_;
+        }
+               
+        
+        std::ostream& stream_;
+    };
+    
+    template<>
+    struct PointerHelper<void>
+    {
+        PointerHelper(std::ostream &str)
+            :stream_(str)
+        {
+            
+        }
+        
+        std::ostream& write(void const *pointer) 
+        {
+            std::uintptr_t value = reinterpret_cast<std::uintptr_t>(pointer);
+            stream_<<"0x"
+                <<std::setfill ('0') << std::setw(sizeof(void const *)*2)
+                <<value;
+                         
+            return stream_;
+        }
+                
+        std::ostream& stream_;
+    };
+        
 /**
  *  Provides streaming operator to CPP_ASSERT_* macros
  */
@@ -79,12 +123,13 @@ public:
             (*this)<<nullptr;
         }
         else
-        {
-            getStream()<<pointer;
+        {            
+           PointerHelper<T>(getStream()).write(pointer);
         }
         return *this;
     }
 
+ 
     /**
      * Type definition for std::ostream manipulators like @c std::endl
      */
@@ -127,16 +172,17 @@ public:
         return static_cast<bool>(stream_.get()==nullptr);
     }
 
-private:
+private:    
     inline std::ostream &getStream()
     {
         if(stream_.get()==nullptr)
         {
             stream_.reset(new std::stringstream);
         }
-        return (*stream_);
+        
+        return  *stream_;
     }
-
+   
     std::unique_ptr<std::stringstream> stream_;
 };
 
