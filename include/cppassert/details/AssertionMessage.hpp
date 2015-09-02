@@ -46,6 +46,7 @@ namespace internal
             std::uintptr_t value = reinterpret_cast<std::uintptr_t>(pointer);
             stream_<<"0x"
                 <<std::setfill ('0') << std::setw(sizeof(void const *)*2)
+                <<std::hex
                 <<value;
                          
             return stream_;
@@ -124,7 +125,8 @@ public:
         }
         else
         {            
-           PointerHelper<T>(getStream()).write(pointer);
+           using remove_cv_t = typename std::remove_cv<T>::type;
+           PointerHelper<remove_cv_t>(getStream()).write(pointer);
         }
         return *this;
     }
