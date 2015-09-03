@@ -17,26 +17,26 @@ namespace internal
     struct PointerHelper 
     {
         PointerHelper(std::ostream &str)
-            :stream_(str)
+            :stream_(&str)
         {
             
         }
         
         inline std::ostream& write(const T *const &pointer) 
         {
-             stream_<<pointer;
-             return stream_;
+             (*stream_)<<pointer;
+             return (*stream_);
         }
                
         
-        std::ostream& stream_;
+        std::ostream* stream_;
     };
     
     template<>
     struct PointerHelper<void>
     {
         PointerHelper(std::ostream &str)
-            :stream_(str)
+            :stream_(&str)
         {
             
         }
@@ -44,15 +44,15 @@ namespace internal
         std::ostream& write(void const *pointer) 
         {
             std::uintptr_t value = reinterpret_cast<std::uintptr_t>(pointer);
-            stream_<<"0x"
+            (*stream_)<<"0x"
                 <<std::setfill ('0') << std::setw(sizeof(void const *)*2)
                 <<std::hex
                 <<value;
                          
-            return stream_;
+            return (*stream_);
         }
                 
-        std::ostream& stream_;
+        std::ostream* stream_;
     };
         
 /**
