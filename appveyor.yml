@@ -22,9 +22,7 @@ init:
     - git config --global core.autocrlf input
 # clone directory
 clone_folder: c:\projects\cppassert
-platform: 
-    - x86
-    - x64
+
 configuration: Debug
 install:
 # by default, all script lines are interpreted as batch
@@ -43,9 +41,8 @@ before_build:
     - echo Running cmake...
     - cd c:\projects\cppassert
     - if "%platform%"=="x86" set CMAKE_GENERATOR_NAME=Visual Studio %msvs_toolset%
-    - if "%platform%"=="x64"   set CMAKE_GENERATOR_NAME=Visual Studio %msvs_toolset% Win64
-    - CMAKE_GENERATOR_NAME="Visual Studio %msvs_toolset% Win64"    
-    - cmake -H. --config Debug .
+    - if "%platform%"=="x64" set CMAKE_GENERATOR_NAME=Visual Studio %msvs_toolset% Win64  
+    - cmake -G "%CMAKE_GENERATOR_NAME%" -H. --config Debug .
     - dir *
 test_script:
   - echo %CD%
