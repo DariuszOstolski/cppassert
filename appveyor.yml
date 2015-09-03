@@ -1,6 +1,7 @@
 version: 0.1.{build}
 
-matrix:
+environment:
+    matrix:
     - platform: x64
       msvs_toolset: 12
     - platform: x86
