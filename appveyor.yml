@@ -34,7 +34,7 @@ configuration: Debug
 install:
 # by default, all script lines are interpreted as batch
 build:
-  project: ALL_BUILD.vcxproj
+  project: build\ALL_BUILD.vcxproj
   parallel: false
   verbosity: normal
 # scripts to run before build
