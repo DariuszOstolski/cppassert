@@ -5,15 +5,19 @@ environment:
     - platform: x64
       msvs_toolset: 12
       cmake_generator_name: Visual Studio 12 Win64
+      architecture: amd64
     - platform: x86
       msvs_toolset: 12
       cmake_generator_name: Visual Studio 12
+      architecture: amd64_x86
     - platform: x64
       msvs_toolset: 14 
       cmake_generator_name: Visual Studio 14 Win64
+      architecture: amd64
     - platform: x86
       msvs_toolset: 14
       cmake_generator_name: Visual Studio 14
+      architecture: amd64_x86
       
 matrix:
   fast_finish: true
@@ -39,10 +43,10 @@ build:
   verbosity: normal
 # scripts to run before build
 before_build:
+    - cmd: set    
     - cmd: set PATH=C:\Program Files (x86)\MSBuild\%msvs_toolset%.0\bin;%PATH%
     - cmd: set PATH=C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\bin;%PATH%
-    - cmd: if "%platform%"=="x64" CALL "C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\vcvarsall.bat" amd64
-    - cmd: if "%platform%"=="x86" CALL "C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\vcvarsall.bat" amd64_x86
+    - cmd: CALL "C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\vcvarsall.bat" %architecture%
     - cmd: echo Running cmake...
     - cmd: cd c:\projects\cppassert
     - cmd: md build
@@ -50,7 +54,6 @@ before_build:
     - cmd: echo %CMAKE_GENERATOR_NAME%
     - cmd: echo %platform%
     - cmd: echo %msvs_toolset%
-    - cmd: set
     - cmd: cmake -G "%CMAKE_GENERATOR_NAME%" -H. --config Debug ..
     - cmd: dir *
 test_script:
