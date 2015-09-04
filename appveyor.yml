@@ -32,18 +32,20 @@ build:
   verbosity: normal
 # scripts to run before build
 before_build:
-    - set
-    - set PATH=C:\Program Files (x86)\MSBuild\%msvs_toolset%.0\bin;%PATH%
-    - set PATH=C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\bin;%PATH%
-    - set
-    - if %platform% == x64 CALL "C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\vcvarsall.bat" amd64
-    - if %platform% == x86 CALL "C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\vcvarsall.bat" amd64_x86
-    - echo Running cmake...
-    - cd c:\projects\cppassert
-    - if "%platform%"=="x86" set CMAKE_GENERATOR_NAME=Visual Studio %msvs_toolset%
-    - if "%platform%"=="x64" set CMAKE_GENERATOR_NAME=Visual Studio %msvs_toolset% Win64  
-    - cmake -G "%CMAKE_GENERATOR_NAME%" -H. --config Debug .
-    - dir *
+    - cmd: set
+    - cmd: set PATH=C:\Program Files (x86)\MSBuild\%msvs_toolset%.0\bin;%PATH%
+    - cmd: set PATH=C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\bin;%PATH%
+    - cmd: set
+    - cmd: if %platform% == x64 CALL "C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\vcvarsall.bat" amd64
+    - cmd: if %platform% == x86 CALL "C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\vcvarsall.bat" amd64_x86
+    - cmd: echo Running cmake...
+    - cmd: cd c:\projects\cppassert
+    - cmd: if "%platform%"=="x86" set CMAKE_GENERATOR_NAME="Visual Studio %msvs_toolset%"
+    - cmd: if "%platform%"=="x64" set CMAKE_GENERATOR_NAME="Visual Studio %msvs_toolset% Win64"
+    - cmd: echo "%CMAKE_GENERATOR_NAME%" %CMAKE_GENERATOR_NAME%
+    - cmd: set
+    - cmd: cmake -G "%CMAKE_GENERATOR_NAME%" -H. --config Debug .
+    - cmd: dir *
 test_script:
   - echo %CD%
   - ctest -VV
