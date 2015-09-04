@@ -49,12 +49,10 @@ before_build:
     - cmd: CALL "C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\vcvarsall.bat" %architecture%
     - cmd: echo Running cmake...
     - cmd: cd c:\projects\cppassert
-    - cmd: md build
-    - cmd: cd build
     - cmd: echo %CMAKE_GENERATOR_NAME%
     - cmd: echo %platform%
     - cmd: echo %msvs_toolset%
-    - cmd: cmake -G "%CMAKE_GENERATOR_NAME%" -H. --config Debug ..
+    - cmd: cmake -G "%CMAKE_GENERATOR_NAME%" -H. --config Debug .
     - cmd: dir *
 test_script:
   - echo %CD%
