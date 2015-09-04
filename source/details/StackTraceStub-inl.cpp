@@ -44,7 +44,7 @@ public:
      * Throws `std::out_of_range` exception
      * 
      */
-    const StackTrace::StackFrame &at(std::int32_t ) const
+    const StackTrace::StackFrame &at(std::size_t ) const
     {
 
         throw std::out_of_range("StackTrace[] out of range");

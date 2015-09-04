@@ -198,7 +198,7 @@ namespace cppassert
              * Returns StackFrame at position \p pos. If pos
              * is outside range (0, size()) throws std::out_of_range exception.
              */
-            const StackTrace::StackFrame &at(std::uint32_t pos) const
+            const StackTrace::StackFrame &at(std::size_t pos) const
             {
                 if (pos<capturedFrames_)
                 {
@@ -222,7 +222,7 @@ namespace cppassert
                 cFramesSize = 1024
             };
             BacktraceSymbol frames_[cFramesSize];
-            std::uint32_t capturedFrames_ = 0;
+            std::size_t capturedFrames_ = 0;
         };
 
         std::mutex StackTraceImpl::mutex_;

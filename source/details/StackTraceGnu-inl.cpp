@@ -294,7 +294,7 @@ public:
         backtraceSize_ = ::backtrace(backtrace_, BufferSize);
         symbols_ = ::backtrace_symbols(backtrace_, backtraceSize_);
 
-        for(std::int32_t i=cFramesToSkip; i<backtraceSize_; ++i)
+        for(std::size_t i=cFramesToSkip; i<backtraceSize_; ++i)
         {
             if(symbols_)
             {
@@ -327,7 +327,7 @@ public:
      * @param   position    Number of frame to be returned
      * @return StackFrame at \p position
      */
-    const StackTrace::StackFrame &at(std::int32_t position) const
+    const StackTrace::StackFrame &at(std::size_t position) const
     {
         if(position<(backtraceSize_-cFramesToSkip))
         {
@@ -364,7 +364,7 @@ private:
     void *backtrace_[BufferSize];
     StackTrace::StackFrame frames_[BufferSize];
     BackTraceSymbol demangledSymbols_[BufferSize];
-    std::int32_t backtraceSize_ = 0;
+    std::size_t backtraceSize_ = 0;
 };
 
 
