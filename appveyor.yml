@@ -4,12 +4,16 @@ environment:
     matrix:
     - platform: x64
       msvs_toolset: 12
+      cmake_generator_name: Visual Studio 12 Win64
     - platform: x86
       msvs_toolset: 12
+      cmake_generator_name: Visual Studio 12
     - platform: x64
-      msvs_toolset: 14      
+      msvs_toolset: 14 
+      cmake_generator_name: Visual Studio 14 Win64
     - platform: x86
       msvs_toolset: 14
+      cmake_generator_name: Visual Studio 14
       
 matrix:
   fast_finish: true
@@ -43,11 +47,10 @@ before_build:
     - cmd: cd c:\projects\cppassert
     - cmd: md build
     - cmd: cd build
-    - cmd: if "%platform%"=="x86" set CMAKE_GENERATOR_NAME="Visual Studio %msvs_toolset%"
-    - cmd: if "%platform%"=="x64" set CMAKE_GENERATOR_NAME="Visual Studio %msvs_toolset% Win64"
     - cmd: echo %CMAKE_GENERATOR_NAME%
     - cmd: echo %platform%
     - cmd: echo %msvs_toolset%
+    - cmd: set
     - cmd: cmake -G "%CMAKE_GENERATOR_NAME%" -H. --config Debug ..
     - cmd: dir *
 test_script:
