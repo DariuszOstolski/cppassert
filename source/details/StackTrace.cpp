@@ -73,7 +73,7 @@ std::size_t StackTrace::size() const
     return impl_->size();
 }
 
-const StackTrace::StackFrame &StackTrace::operator[](std::int32_t position) const
+const StackTrace::StackFrame &StackTrace::operator[](std::size_t position) const
 {
     return impl_->at(position);
 }

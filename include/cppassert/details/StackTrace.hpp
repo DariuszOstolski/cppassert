@@ -76,7 +76,7 @@ public:
      * @param   position    Number of frame to be returned
      * @return StackFrame at \p position
      */
-    const StackFrame &operator[](std::int32_t position) const;
+    const StackFrame &operator[](std::size_t position) const;
 private:
     StackTrace();
     StackTrace(const StackTrace &) = delete;
