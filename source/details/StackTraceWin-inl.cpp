@@ -152,12 +152,13 @@ namespace cppassert
                     }
                     else
                     {
+                        const std::uint64_t addressSize = sizeof(PVOID)*CHAR_BIT;
                         char msgBuffer[512];
                         sprintf_s(msgBuffer, sizeof(msgBuffer)
-                                , "Error getting symbol from addr: 0x%016llX 0x%p address size %d bits\n"
+                                , "Error getting symbol from addr: 0x%016llX 0x%p address size %lu bits\n"
                                 , frameAddr
                                 , frames[frame]
-                                , sizeof(PVOID)*CHAR_BIT);
+                                , addressSize);
                         msgBuffer[sizeof(msgBuffer)-1] = '\0';
                         PrintMessageToStdErr(msgBuffer);
                         DisplayLastError("SymFromAddr");
