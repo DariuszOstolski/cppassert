@@ -152,7 +152,7 @@ namespace cppassert
                     }
                     else
                     {
-                        const std::uint64_t addressSize = sizeof(PVOID)*CHAR_BIT;
+                        const unsigned long addressSize = sizeof(PVOID)*CHAR_BIT;
                         char msgBuffer[512];
                         sprintf_s(msgBuffer, sizeof(msgBuffer)
                                 , "Error getting symbol from addr: 0x%016llX 0x%p address size %lu bits\n"
