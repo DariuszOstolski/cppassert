@@ -38,7 +38,7 @@ configuration: Debug
 install:
 # by default, all script lines are interpreted as batch
 build:
-  project: %APPVEYOR_BUILD_FOLDER%\build\ALL_BUILD.vcxproj
+  project: c:\projects\cppassert\build\ALL_BUILD.vcxproj
   parallel: false
   verbosity: normal
 # scripts to run before build
