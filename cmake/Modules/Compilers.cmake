@@ -45,7 +45,13 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
     if(CMAKE_BUILD_TYPE STREQUAL "Test")
         set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb3 -O0 -ftest-coverage -fprofile-arcs")
     endif (CMAKE_BUILD_TYPE STREQUAL "Test")
-    set(CMAKE_CXX_FLAGS "-pedantic -Wextra -Wmissing-include-dirs -W -Wall -Werror -std=c++11 ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_CXX_FLAGS "-pedantic -Wextra -Wmissing-include-dirs -W -Wall -std=c++11 ${CMAKE_CXX_FLAGS}")
+    
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.7 
+        AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0 )
+        set(CMAKE_CXX_FLAGS "-Werror ${CMAKE_CXX_FLAGS}")
+        message("Detected supported compiler version added -Werror flag")
+    endif()
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL Intel)
   # using Intel C++
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
@@ -53,11 +59,19 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     # using Visual Studio C++
     # Newlines inside flags variables break CMake's NMake generator.
     # TODO(vladl@google.com): Add -RTCs and -RTCu to debug builds.
-    set(CMAKE_CXX_FLAGS "-GS -W4 -WX -wd4251 -wd4275 -nologo -J -Zi")
 
+    set(CMAKE_CXX_FLAGS "-GS -W4 -WX -wd4251 -wd4275 -nologo -J -Zi")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWIN32 -D_WIN32")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSTRICT -DWIN32_LEAN_AND_MEAN")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -EHsc -D_HAS_EXCEPTIONS=1")
+
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 17.0 
+        AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 20.0 )
+        set(CMAKE_CXX_FLAGS "-WX ${CMAKE_CXX_FLAGS}")
+        message("Detected supported compiler version added -WX flag")
+    endif()
+
+
     set(gtest_force_shared_crt ON)
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL SunPro)
     # using gcc
