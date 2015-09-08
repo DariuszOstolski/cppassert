@@ -38,7 +38,7 @@ configuration: Debug
 install:
 # by default, all script lines are interpreted as batch
 build:
-  project: ALL_BUILD.vcxproj
+  project: %APPVEYOR_BUILD_FOLDER%\build\ALL_BUILD.vcxproj
   parallel: false
   verbosity: normal
 # scripts to run before build
@@ -48,11 +48,13 @@ before_build:
     - cmd: set PATH=C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\bin;%PATH%
     - cmd: CALL "C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\vcvarsall.bat" %architecture%
     - cmd: echo Running cmake...
-    - cmd: cd c:\projects\cppassert
+    - cmd: cd %APPVEYOR_BUILD_FOLDER%
+    - cmd: md build
+    - cmd: cd build
     - cmd: echo %CMAKE_GENERATOR_NAME%
     - cmd: echo %platform%
     - cmd: echo %msvs_toolset%
-    - cmd: cmake -G "%CMAKE_GENERATOR_NAME%" -H. --config Debug .
+    - cmd: cmake -G "%CMAKE_GENERATOR_NAME%" -H. --config Debug ..
     - cmd: dir *
 test_script:
   - echo %CD%
