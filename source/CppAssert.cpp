@@ -117,8 +117,12 @@ CppAssert *CppAssert::getInstance()
 
 void CppAssert::onAssertionFailure(const AssertionFailure &assertion)
 {
-    std::unique_lock<std::mutex> lock(assertionHandlerMutex_);
-    assertionHandler_(assertion);
+    AssertionHandlerType assertionHandler;
+    {
+        std::unique_lock<std::mutex> lock(assertionHandlerMutex_);
+        assertionHandler = assertionHandler_;
+    }
+    assertionHandler(assertion);
 }
 
 std::string CppAssert::getStackTraceExceptTop(std::uint32_t skip)
