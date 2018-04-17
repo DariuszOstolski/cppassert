@@ -185,6 +185,7 @@ void CppAssert::setAssertionHandler(AssertionHandlerType assertionHandler)
 {
     if(assertionHandler)
     {
+        std::unique_lock<std::mutex> lock(assertionHandlerMutex_);
         assertionHandler_ = std::move(assertionHandler);
     }
 }

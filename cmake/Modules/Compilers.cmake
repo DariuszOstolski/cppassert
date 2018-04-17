@@ -43,7 +43,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
     # using gcc
     if(CMAKE_BUILD_TYPE STREQUAL "Test")
-        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb3 -O0 -ftest-coverage -fprofile-arcs")
+        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb3 -O0 -fsanitize=address")
     endif (CMAKE_BUILD_TYPE STREQUAL "Test")
     set(CMAKE_CXX_FLAGS "-pedantic -Wextra -Wmissing-include-dirs -W -Wall -std=c++11 ${CMAKE_CXX_FLAGS}")
     
