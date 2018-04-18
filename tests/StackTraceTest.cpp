@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "../source/details/StackTrace.cpp"
 #include "../source/details/DebugPrint.cpp"
+#include <iostream>
 
 #if defined(CPP_ASSERT_HAVE_BACKTRACE) || defined(_WIN32)
 
@@ -34,6 +35,7 @@ TEST(StackTraceTest, getStackTrace)
     StackTrace frames = StackTrace::getStackTrace();
     EXPECT_TRUE(frames.size()>0);
     const std::string functionName(frames[0].getSymbol());
+    std::cout<<functionName<<std::endl;
     EXPECT_TRUE(functionName.find("getStackTrace")!=std::string::npos);
 }
 
