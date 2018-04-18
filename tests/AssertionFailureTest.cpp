@@ -7,7 +7,7 @@ class AssertionFailureTest : public ::testing::Test
 protected:
     virtual void SetUp()
     {
-       cppassert::CppAssert::getInstance()->setDefaultFormatter();
+       //cppassert::CppAssert::getInstance()->setDefaultFormatter();
     }
 
 };
@@ -61,7 +61,7 @@ TEST_F(AssertionFailureTest, operatorEq)
     const char expectedFile[] = "file";
     const char expectedFunction[] = "my_function";
     std::string message("my message");
-    cppassert::CppAssert::getInstance()->setAssertionHandler(emptyHandler);
+    // cppassert::CppAssert::getInstance()->setAssertionHandler(emptyHandler);
 
     cppassert::AssertionFailure assertion(expectedLine
                                 , expectedFile

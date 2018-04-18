@@ -107,13 +107,13 @@ protected:
                             , std::placeholders::_2
                             , std::placeholders::_3);
 
-        cppAssert_->setBooleanFailureFormatter(formatBoolFailure_);
+        /*cppAssert_->setBooleanFailureFormatter(formatBoolFailure_);
         cppAssert_->setAssertionFormatter(formatAssertion_);
         cppAssert_->setPredicateFailureFormatter(formatPredicateFailure_);
         cppAssert_->setFrameFormatter(formatFrame_);
         cppAssert_->setStreamFormatter(formatStreamed_);
         cppAssert_->setStatementFailureFormatter(formatStatementFailure_);
-
+        */
     }
 
     virtual void TearDown()
@@ -124,8 +124,8 @@ protected:
         formatAssertionCounter_ = 0;
         formatStatementCounter_ = 0;
         formatFrameCounter_ = 0;
-        cppAssert_->setDefaultFormatter();
-        cppAssert_->setDefaultHandler();
+        //cppAssert_->setDefaultFormatter();
+        //cppAssert_->setDefaultHandler();
     }
 };
 

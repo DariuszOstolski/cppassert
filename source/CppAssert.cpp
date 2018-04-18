@@ -41,8 +41,9 @@ void onAssertionFailureDefaultHandler(const AssertionFailure &assertion)
 #endif
 
 }
+} //internal
 
-std::string formatBoolFailureMessage(const char* expressionText,
+std::string DefaultFormatter::formatBoolFailureMessage(const char* expressionText,
                                     const char* actualPredicateValue,
                                     const char* expectedPredicateValue)
 {
@@ -53,14 +54,14 @@ std::string formatBoolFailureMessage(const char* expressionText,
     return msg.str();
 }
 
-std::string formatStreamedMessage(const std::string &message)
+std::string DefaultFormatter::formatStreamedMessage(const std::string &message)
 {
     AssertionMessage msg;
     msg<<'\n'<<message;
     return msg.str();
 }
 
-std::string formatPredicateFailureMessage(const char* predicate,
+std::string DefaultFormatter::formatPredicateFailureMessage(const char* predicate,
                                     const char* value1Text,
                                     const char* value2Text,
                                     const std::string &value1,
@@ -74,7 +75,7 @@ std::string formatPredicateFailureMessage(const char* predicate,
     return msg.str();
 }
 
-std::string formatAssertionMessage(const AssertionFailure &assertion)
+std::string DefaultFormatter::formatAssertionMessage(const AssertionFailure &assertion)
 {
     AssertionMessage error;
     error<<assertion.getSourceFileName()<<':'<<assertion.getSourceFileLine()
@@ -84,14 +85,14 @@ std::string formatAssertionMessage(const AssertionFailure &assertion)
     return error.str();
 }
 
-std::string formatStatementFailureMessage(const char *statement)
+std::string DefaultFormatter::formatStatementFailureMessage(const char *statement)
 {
     AssertionMessage msg;
     msg<< "Assertion failure: "<<statement;
     return msg.str();
 }
 
-std::string formatFrame(std::uint32_t frameNumber
+std::string DefaultFormatter::formatFrame(std::uint32_t frameNumber
                         , const void *address
                         , const char *symbol )
 {
@@ -101,161 +102,7 @@ std::string formatFrame(std::uint32_t frameNumber
         <<symbol<<std::endl;
     return msg.str();
 }
-} //internal
-
-CppAssert::CppAssert()
-:assertionHandler_(internal::onAssertionFailureDefaultHandler)
-{
-    setDefaultFormatter();
-}
-
-CppAssert *CppAssert::getInstance()
-{
-    static CppAssert instance;
-    return &instance;
-}
-
-void CppAssert::onAssertionFailure(const AssertionFailure &assertion)
-{
-    AssertionHandlerType assertionHandler;
-    {
-        std::unique_lock<std::mutex> lock(assertionHandlerMutex_);
-        assertionHandler = assertionHandler_;
-    }
-    assertionHandler(assertion);
-}
-
-std::string CppAssert::getStackTraceExceptTop(std::uint32_t skip)
-{
-    auto frames = internal::StackTrace::getStackTrace();
-    //skip current frame
-    skip += 1;
-    AssertionMessage msg;
-    if(frames.size()>skip)
-    {
-        std::uint32_t frameNumber = skip;
-        for(; frameNumber<frames.size(); ++frameNumber)
-        {
-            msg<<formatter_.formatFrame_(frameNumber-skip
-                            , frames[frameNumber].getAddress()
-                            , frames[frameNumber].getSymbol());
-        }
-    }
-    return msg.str();
-}
-
-std::string CppAssert::formatBoolFailureMessage(const char* expressionText,
-                                    const char* actualPredicateValue,
-                                    const char* expectedPredicateValue)
-{
-    return formatter_.formatBoolFailure_(expressionText
-                            , actualPredicateValue
-                            , expectedPredicateValue);
-}
-
-std::string CppAssert::formatStreamedMessage(const std::string &message)
-{
-    return formatter_.formatStreamed_(message);
-}
-
-std::string CppAssert::formatPredicateFailureMessage(const char* predicate,
-                                    const char* value1Text,
-                                    const char* value2Text,
-                                    const std::string &value1,
-                                    const std::string &value2)
-{
-    return formatter_.formatPredicateFailure_(predicate
-                        , value1Text
-                        , value2Text
-                        , value1
-                        , value2);
-}
-
-std::string CppAssert::formatAssertionMessage(const AssertionFailure &assertion)
-{
-    return formatter_.formatAssertion_(assertion);
-}
-
-std::string CppAssert::formatStatementFailureMessage(const char *statement)
-{
-    return formatter_.formatStatementFailure_(statement);
-}
-
-void CppAssert::setAssertionHandler(AssertionHandlerType assertionHandler)
-{
-    if(assertionHandler)
-    {
-        std::unique_lock<std::mutex> lock(assertionHandlerMutex_);
-        assertionHandler_ = std::move(assertionHandler);
-    }
-}
-
-void CppAssert::setDefaultHandler()
-{
-    assertionHandler_ = internal::onAssertionFailureDefaultHandler;
-}
-
-void CppAssert::setBooleanFailureFormatter(CppAssert::FormatBoolFailure
-                                                    booleanFormatter)
-{
-    if(booleanFormatter)
-    {
-        formatter_.formatBoolFailure_ = booleanFormatter;
-    }
-}
 
 
-void CppAssert::setPredicateFailureFormatter(CppAssert::FormatPredicateFailure
-                                                    predicateFormatter)
-{
-    if(predicateFormatter)
-    {
-        formatter_.formatPredicateFailure_ = predicateFormatter;
-    }
-}
-
-void CppAssert::setStatementFailureFormatter(CppAssert::FormatStatementFailure
-                                                    statementFormatter)
-{
-    if(statementFormatter)
-    {
-        formatter_.formatStatementFailure_ = statementFormatter;
-    }
-}
-
-void CppAssert::setStreamFormatter(CppAssert::FormatStreamed streamFormatter)
-{
-    if(streamFormatter)
-    {
-        formatter_.formatStreamed_ = streamFormatter;
-    }
-}
-
-void CppAssert::setFrameFormatter(CppAssert::FormatFrame frameFormatter)
-{
-    if(frameFormatter)
-    {
-        formatter_.formatFrame_ = frameFormatter;
-    }
-}
-
-void CppAssert::setAssertionFormatter(CppAssert::FormatAssertion
-                                            assertionFormatter)
-{
-    if(assertionFormatter)
-    {
-        formatter_.formatAssertion_ = assertionFormatter;
-    }
-}
-
-void CppAssert::setDefaultFormatter()
-{
-    formatter_.formatAssertion_ = internal::formatAssertionMessage;
-    formatter_.formatBoolFailure_ = internal::formatBoolFailureMessage;
-    formatter_.formatPredicateFailure_ = internal::formatPredicateFailureMessage;
-    formatter_.formatStatementFailure_ = internal::formatStatementFailureMessage;
-    formatter_.formatStreamed_ = internal::formatStreamedMessage;
-    formatter_.formatFrame_ = internal::formatFrame;
-}
 
 } //asrt

@@ -35,13 +35,13 @@ protected:
                             , this
                             , std::placeholders::_1);
 
-       cppassert::CppAssert::getInstance()->setStreamFormatter(formatStreamed_);
-       cppassert::CppAssert::getInstance()->setAssertionHandler(assertionHandler);
+       //cppassert::CppAssert::getInstance()->setStreamFormatter(formatStreamed_);
+       //cppassert::CppAssert::getInstance()->setAssertionHandler(assertionHandler);
     }
 
     virtual void TearDown()
     {
-        cppassert::CppAssert::getInstance()->setDefaultHandler();
+        //cppassert::CppAssert::getInstance()->setDefaultHandler();
     }
 };
 
