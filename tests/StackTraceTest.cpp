@@ -34,6 +34,9 @@ TEST(StackTraceTest, getStackTrace)
 {
     StackTrace frames = StackTrace::getStackTrace();
     EXPECT_TRUE(frames.size()>0);
+    for(std::size_t i=0; i<frames.size(); ++i) {
+         std::cout<<"Frame "<<i<<": "<<frames[i].getSymbol()<<std::endl;
+    }
     const std::string functionName(frames[0].getSymbol());
     std::cout<<functionName<<std::endl;
     EXPECT_TRUE(functionName.find("getStackTrace")!=std::string::npos);
