@@ -1,11 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
-
-
-################################
-# GTest
-################################
-
-include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+cmake_minimum_required(VERSION 3.16)
 
 ################################
 # Unit Tests
@@ -19,29 +12,27 @@ set(test_sources
     CppAssertTest.cpp
     AssertAlwaysTest.cpp
 )
-set(EXECUTABLE_NAME unitTests)
-add_executable( ${EXECUTABLE_NAME} ${test_sources} )
+add_executable( unitTests ${test_sources})
 # Link test executable against gtest & gtest_main
-target_link_libraries(${EXECUTABLE_NAME} gtest gtest_main ${CPPASSERT_LIBNAME}  ${CPP_ASSERT_REQURED_LIBS})
-add_test(unitTests ${EXECUTABLE_NAME})
+find_package(GTest CONFIG REQUIRED)
+target_link_libraries(unitTests PRIVATE GTest::gtest GTest::gtest_main cppassert)
+add_test(unitTests unitTests)
 
 
 set(test_sources
     StackTraceTest.cpp
 )
 
-set(EXECUTABLE_NAME stackTraceTest)
-add_executable( ${EXECUTABLE_NAME} ${test_sources} )
+add_executable( stackTraceTest StackTraceTest.cpp)
 # Link test executable against gtest & gtest_main
-target_link_libraries(${EXECUTABLE_NAME} gtest gtest_main ${CPP_ASSERT_REQURED_LIBS})
-add_test(stackTraceTest ${EXECUTABLE_NAME})
+target_link_libraries(stackTraceTest PRIVATE GTest::gtest GTest::gtest_main cppassert)
+add_test(stackTraceTest stackTraceTest)
 
 set(test_sources
     StackTraceStubTest.cpp
 )
 
-set(EXECUTABLE_NAME stackTraceStubTest)
-add_executable( ${EXECUTABLE_NAME} ${test_sources} )
+add_executable( stackTraceStubTest ${test_sources} )
 # Link test executable against gtest & gtest_main
-target_link_libraries(${EXECUTABLE_NAME} gtest gtest_main ${CPP_ASSERT_REQURED_LIBS} )
-add_test(stackTraceStubTest ${EXECUTABLE_NAME}  )
+target_link_libraries(stackTraceStubTest PRIVATE GTest::gtest GTest::gtest_main cppassert)
+add_test(stackTraceStubTest stackTraceStubTest  )
