@@ -10,5 +10,8 @@ if(FEATURE_TESTS)
   list(APPEND VCPKG_MANIFEST_FEATURES "tests")
 endif()
 
+# building the samples
+option(FEATURE_SAMPLES "Enable the samples" OFF)
+
 # building the docs
 option(FEATURE_DOCS "Enable the docs" OFF)

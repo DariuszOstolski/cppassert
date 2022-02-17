@@ -16,7 +16,7 @@ run_vcpkg()
 set(PROJECT_VERSION "0.1.0")
 project(cppassert VERSION ${PROJECT_VERSION} LANGUAGES CXX C)
 
-if(FEATURE_DOCS)
+if(${FEATURE_DOCS})
   set(ENABLE_DOXYGEN "ENABLE_DOXYGEN")
 endif()
 
@@ -57,26 +57,11 @@ message("module path: ${CMAKE_MODULE_PATH}")
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/FindBacktrace.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/Compilers.cmake)
 
-set(CPPASSERT_LIBNAME ${CMAKE_PROJECT_NAME})
-set(CPP_ASSERT_REQURED_LIBS)
-set(CPP_ASSERT_REQURED_INCLUDE_DIRS)
+include("./Source.cmake")
 
-if(FEATURE_BACKTRACE)
-  find_package(Backtrace)
-  if(Backtrace_FOUND)
-      set(CMAKE_CXX_FLAGS "-DCPP_ASSERT_HAVE_BACKTRACE=1 ${CMAKE_CXX_FLAGS}")
-      set(CPP_ASSERT_REQURED_LIBS ${Backtrace_LIBRARIES})
-      set(CPP_ASSERT_REQURED_INCLUDE_DIRS ${Backtrace_INCLUDE_DIRS})
-  endif()
-
-  if(WIN32)
-      set(CPP_ASSERT_REQURED_LIBS DbgHelp.lib)
-  endif()
+if(${FEATURE_SAMPLES})
+  add_subdirectory (samples)
 endif()
-
-include_directories (include)
-add_subdirectory (source)
-add_subdirectory (samples)
 
 if(${FEATURE_TESTS})
   enable_testing()
