@@ -34,3 +34,5 @@ if(FEATURE_BACKTRACE)
     target_link_libraries(cppassert PRIVATE "DbgHelp.lib")
   endif()
 endif()
+
+package_project(PUBLIC_INCLUDES ${INCLUDE_DIR})
